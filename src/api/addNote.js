@@ -1,19 +1,20 @@
 import supabase from "@/config/supabase";
 
-// home API
-export const homeAPI = {
-  async getNotes() {
+// add note API
+export const addNoteAPI = {
+  async addNote({ title, content }) {
     try {
-      // fetch all notes
+      // add note
       const { data, error } = await supabase
         .from("notes")
-        .select()
-        .order("created_at", { ascending: false });
+        .insert([{ title: title, content: content }])
+        .select();
 
       if (error) throw error;
+
       return { data, error: null };
     } catch (error) {
-      console.error("Error fetching notes:", error);
+      console.error("Error adding notes:", error);
       return { data: null, error };
     }
   },

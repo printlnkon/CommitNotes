@@ -7,13 +7,13 @@ import ErrorBoundary from "@/components/error-boundary";
 function AppContent() {
   return (
     <>
-      <ErrorBoundary>
+      {/* <ErrorBoundary> */}
         <Routes>
           <Route path="*" element={<PageNotFound />} />
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
         </Routes>
-      </ErrorBoundary>
+      {/* </ErrorBoundary> */}
     </>
   );
 }
