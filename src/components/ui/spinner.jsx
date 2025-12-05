@@ -1,4 +1,4 @@
-import { Loader2Icon } from "lucide-react"
+import { Loader } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
@@ -7,7 +7,7 @@ function Spinner({
   ...props
 }) {
   return (
-    <Loader2Icon
+    <Loader
       role="status"
       aria-label="Loading"
       className={cn("size-16 animate-spin", className)}

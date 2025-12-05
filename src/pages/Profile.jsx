@@ -14,7 +14,7 @@ export default function Profile() {
       </header>
 
       <section className="px-4 md:px-8 lg:px-12">
-        <h1 className="text-xl md:text-2xl font-bold p-4 md:p-7">Profile</h1>
+        <h1 className="text-xl md:text-2xl font-bold p-4 md:p-6">Profile</h1>
       </section>
     </main>
   );
