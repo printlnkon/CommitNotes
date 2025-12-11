@@ -1,19 +1,20 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import PageNotFound from "@/pages/page-not-found";
+import { Toaster } from "@/components/ui/sonner";
 import Home from "@/pages/home";
 import Profile from "@/pages/profile";
+import PageNotFound from "@/pages/page-not-found";
 import ErrorBoundary from "@/components/error-boundary";
 
 function AppContent() {
   return (
     <>
-      {/* <ErrorBoundary> */}
+      <ErrorBoundary>
         <Routes>
           <Route path="*" element={<PageNotFound />} />
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
         </Routes>
-      {/* </ErrorBoundary> */}
+      </ErrorBoundary>
     </>
   );
 }
@@ -21,6 +22,7 @@ function AppContent() {
 function App() {
   return (
     <>
+      <Toaster richColors position="top-right" />
       <Router>
         <AppContent />
       </Router>

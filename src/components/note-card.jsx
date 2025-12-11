@@ -14,13 +14,13 @@ export default function NoteCard({ note }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   // check if content is long enough to need a "read more" button
-  const shouldTruncate = note.content.length > 120;
+  const isNoteTruncated = note.note.length > 100;
 
   return (
     <Card className="hover:shadow-lg transition-shadow duration-300">
       <CardHeader>
         <CardTitle className="text-xl font-bold">{note.title}</CardTitle>
-        <CardDescription className="text-sm font-normal">
+        <CardDescription className="text-xs font-normal">
           {formatFullDate(note.created_at)}
         </CardDescription>
       </CardHeader>
@@ -30,28 +30,26 @@ export default function NoteCard({ note }) {
           {/* expanded view */}
           {isExpanded ? (
             <ScrollArea className="h-60 w-full rounded-md border p-3">
-              <div className="whitespace-pre-wrap break-all">
-                {note.content}
-              </div>
+              <div className="whitespace-pre-wrap break-all">{note.note}</div>
             </ScrollArea>
           ) : (
             // collapsed view
             <div
               className={`whitespace-pre-wrap break-all ${
-                shouldTruncate ? "line-clamp-3" : ""
+                isNoteTruncated ? "line-clamp-3" : ""
               }`}
             >
-              {note.content}
+              {note.note}
             </div>
           )}
 
-          {/* button appears if text > 120 characters */}
-          {shouldTruncate && (
+          {/* button appears if text > 100 characters */}
+          {isNoteTruncated && (
             <Button
               variant="link"
               size="sm"
               onClick={() => setIsExpanded(!isExpanded)}
-              className="p-0 h-auto font-normal text-blue-600 hover:text-blue-800 mt-2"
+              className="p-0 h-auto font-normal text-chart-5 hover:text-chart-5/60 mt-2"
             >
               {isExpanded ? "Show less" : "Read more"}
             </Button>
