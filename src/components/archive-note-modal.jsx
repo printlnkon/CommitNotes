@@ -11,6 +11,11 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Archive, LoaderCircle } from "lucide-react";
@@ -23,14 +28,16 @@ export default function ArchiveNoteModal({ onNoteArchived, noteToArchive }) {
     e.preventDefault();
 
     setIsLoading(true);
-    
+
     if (!noteToArchive?.id) {
       toast.error("No note selected to archive.");
       setIsLoading(false);
       return;
     }
 
-    const { data, error } = await archiveNoteAPI.archiveNote({ id: noteToArchive.id });
+    const { data, error } = await archiveNoteAPI.archiveNote({
+      id: noteToArchive.id,
+    });
 
     if (error) {
       toast.error("Error archiving note.", error);
@@ -49,14 +56,21 @@ export default function ArchiveNoteModal({ onNoteArchived, noteToArchive }) {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <Button
-          variant="outline"
-          className="cursor-pointer"
-          size="icon"
-          onClick={() => setOpen(true)}
-        >
-          <Archive />
-        </Button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="outline"
+              className="cursor-pointer"
+              size="icon"
+              onClick={() => setOpen(true)}
+            >
+              <Archive />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Archive note</p>
+          </TooltipContent>
+        </Tooltip>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -73,7 +87,12 @@ export default function ArchiveNoteModal({ onNoteArchived, noteToArchive }) {
           <AlertDialogCancel className="cursor-pointer">
             Cancel
           </AlertDialogCancel>
-          <AlertDialogAction type="submit" className="cursor-pointer" onClick={handleArchiveNote} disabled={isLoading}>
+          <AlertDialogAction
+            type="submit"
+            className="cursor-pointer"
+            onClick={handleArchiveNote}
+            disabled={isLoading}
+          >
             <>
               {isLoading ? (
                 <>
