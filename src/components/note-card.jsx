@@ -13,7 +13,12 @@ import { ButtonGroup } from "@/components/ui/button-group";
 import EditNoteModal from "@/components/edit-note-modal";
 import ArchiveNoteModal from "@/components/archive-note-modal";
 
-export default function NoteCard({ note, onNoteEdited, onNoteArchived }) {
+export default function NoteCard({
+  note,
+  onNoteEdited,
+  onNoteArchived,
+  readOnly,
+}) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   // check if content is long enough to need a "read more" button
@@ -58,8 +63,12 @@ export default function NoteCard({ note, onNoteEdited, onNoteArchived }) {
             </Button>
           )}
           <ButtonGroup>
-            <EditNoteModal noteToEdit={note} onNoteEdited={onNoteEdited} />
-            <ArchiveNoteModal noteToArchive={note} onNoteArchived={onNoteArchived} />
+            {!readOnly && (
+              <>
+                <EditNoteModal noteToEdit={note} onNoteEdited={onNoteEdited} />
+                <ArchiveNoteModal noteToArchive={note} onNoteArchived={onNoteArchived} />
+              </>
+            )}
           </ButtonGroup>
         </div>
       </CardContent>

@@ -3,6 +3,7 @@ import { Toaster } from "@/components/ui/sonner";
 import Home from "@/pages/home";
 import Profile from "@/pages/profile";
 import PageNotFound from "@/pages/page-not-found";
+import ArchivedNotes from "@/pages/archived-note";
 import ErrorBoundary from "@/components/error-boundary";
 
 function AppContent() {
@@ -12,6 +13,7 @@ function AppContent() {
         <Routes>
           <Route path="*" element={<PageNotFound />} />
           <Route path="/" element={<Home />} />
+          <Route path="/archived-notes" element={<ArchivedNotes />} />
           <Route path="/profile" element={<Profile />} />
         </Routes>
       </ErrorBoundary>

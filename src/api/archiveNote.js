@@ -28,9 +28,25 @@ export const archiveNoteAPI = {
 
       if (error) throw error;
       return { data, error: null };
-
     } catch (error) {
       console.error("Error archiving note:", error);
+      return { data: null, error };
+    }
+  },
+
+  async getArchivedNotes({ archived = true } = {}) {
+    try {
+      // fetch notes based on archived status
+      const { data, error } = await supabase
+        .from("notes")
+        .select("*")
+        .eq("archived", archived)
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      return { data, error: null };
+    } catch (error) {
+      console.error("Error fetching notes:", error);
       return { data: null, error };
     }
   },

@@ -85,7 +85,7 @@ export default function AddNoteModal({ onNoteAdded }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="cursor-pointer">
+        <Button className="cursor-pointer" title="Add new note">
           <ListPlus />
           New Note
         </Button>
