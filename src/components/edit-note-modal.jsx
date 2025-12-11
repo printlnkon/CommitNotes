@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { addNoteAPI } from "@/api/addNote";
+import { editNoteAPI } from "@/api/editNote";
 import {
   Dialog,
   DialogClose,
@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { ListPlus, LoaderCircle } from "lucide-react";
+import { LoaderCircle, Pencil } from "lucide-react";
 
 function getTitleError(titleText) {
   const trimmedTitle = titleText.trim();
@@ -30,15 +30,27 @@ function getNoteError(noteText) {
   return "";
 }
 
-export default function AddNoteModal({ onNoteAdded }) {
+export default function EditNoteModal({ onNoteEdited, noteToEdit }) {
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [note, setNote] = useState({
+    id: null,
     title: "",
     note: "",
   });
 
-  const handleAddNote = async (e) => {
+  const openEditModal = (noteToEdit) => {
+    setOpen(true);
+    if (noteToEdit) {
+      setNote({
+        id: noteToEdit.id,
+        title: noteToEdit.title,
+        note: noteToEdit.note,
+      });
+    }
+  };
+
+  const handleEditNote = async (e) => {
     e.preventDefault();
 
     const titleError = getTitleError(note.title);
@@ -53,53 +65,55 @@ export default function AddNoteModal({ onNoteAdded }) {
 
     // set default title if empty
     const noteToSave = {
-      ...note,
+      id: note.id,
       title: note.title.trim() === "" ? "Untitled" : note.title.trim(),
       note: note.note.trim(),
     };
 
-    const { data, error } = await addNoteAPI.addNote(noteToSave);
+    const { data, error } = await editNoteAPI.editNote(noteToSave);
 
     if (error) {
-      toast.error("Error adding note.", error);
+      toast.error("Error editing note.", error);
       setIsLoading(false);
     } else {
-      toast.success("Note added successfully.", data);
+      toast.success("Note edited successfully.", data);
       resetForm();
       setIsLoading(false);
       setOpen(false);
-      // refresh notes list
-      if (onNoteAdded) {
-        // onNoteAdded prop passed from home.jsx
-        onNoteAdded();
+      // edit/update note list
+      if (onNoteEdited) {
+        // onNoteEdited prop passed from note-card.jsx
+        onNoteEdited();
       }
     }
   };
 
-  const isAddNoteDisabled = isLoading || !note.note;
+  const isNoteUnchanged =
+    note.title.trim() === (noteToEdit?.title?.trim() ?? "") &&
+    note.note.trim() === (noteToEdit?.note?.trim() ?? "");
 
   const resetForm = () => {
-    setNote({ title: "", note: "" });
+    setNote({ id: null, title: "", note: "" });
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button className="cursor-pointer">
-          <ListPlus />
-          New Note
-        </Button>
-      </DialogTrigger>
+      <Button
+        variant="outline"
+        className="cursor-pointer"
+        size="icon"
+        onClick={() => openEditModal(noteToEdit)}
+      >
+        <Pencil />
+      </Button>
       <DialogContent className="max-w-xs sm:max-w-xs md:max-w-lg lg:max-w-2xl">
         <DialogHeader>
-          <DialogTitle>New Note</DialogTitle>
-          <DialogDescription>
-            Add a new note to your notes list.
-          </DialogDescription>
+          <DialogTitle>Edit Note</DialogTitle>
+          <DialogDescription>Make changes to your note.</DialogDescription>
         </DialogHeader>
 
         {/* title and note form */}
-        <form onSubmit={handleAddNote}>
+        <form onSubmit={handleEditNote}>
           <div className="grid gap-4">
             <div className="grid gap-3">
               <Label htmlFor="title">Title</Label>
@@ -158,16 +172,16 @@ export default function AddNoteModal({ onNoteAdded }) {
             <Button
               type="submit"
               className="cursor-pointer"
-              disabled={isAddNoteDisabled}
+              disabled={isLoading || isNoteUnchanged}
             >
               <>
                 {isLoading ? (
                   <>
                     <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
-                    Adding note...
+                    Editing note...
                   </>
                 ) : (
-                  "Add Note"
+                  "Edit Note"
                 )}
               </>
             </Button>

@@ -9,8 +9,10 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { ButtonGroup, ButtonGroupSeparator } from "@/components/ui/button-group";
+import EditNoteModal from "@/components/edit-note-modal";
 
-export default function NoteCard({ note }) {
+export default function NoteCard({ note, onNoteEdited }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   // check if content is long enough to need a "read more" button
@@ -26,7 +28,7 @@ export default function NoteCard({ note }) {
       </CardHeader>
       {/* content */}
       <CardContent>
-        <div className="text-sm font-medium text-foreground">
+        <div className="text-sm font-medium text-foreground flex justify-between">
           {/* expanded view */}
           {isExpanded ? (
             <ScrollArea className="h-60 w-full rounded-md border p-3">
@@ -54,6 +56,10 @@ export default function NoteCard({ note }) {
               {isExpanded ? "Show less" : "Read more"}
             </Button>
           )}
+          <ButtonGroup>
+            <EditNoteModal noteToEdit={note} onNoteEdited={onNoteEdited} />
+            {/* <EditNoteModal onNoteEdited={onNoteEdited} /> */}
+          </ButtonGroup>
         </div>
       </CardContent>
     </Card>
