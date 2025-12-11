@@ -8,6 +8,7 @@ export const homeAPI = {
       const { data, error } = await supabase
         .from("notes")
         .select()
+        .eq("archived", false)
         .order("created_at", { ascending: false });
 
       if (error) throw error;

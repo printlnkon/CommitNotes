@@ -9,6 +9,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -81,7 +86,7 @@ export default function EditNoteModal({ onNoteEdited, noteToEdit }) {
       setOpen(false);
       // edit/update note list
       if (onNoteEdited) {
-        // onNoteEdited prop passed from note-card.jsx
+        // onNoteEdited prop passed from note-card.jsx (parent component)
         onNoteEdited();
       }
     }
@@ -97,14 +102,21 @@ export default function EditNoteModal({ onNoteEdited, noteToEdit }) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <Button
-        variant="outline"
-        className="cursor-pointer"
-        size="icon"
-        onClick={() => openEditModal(noteToEdit)}
-      >
-        <Pencil />
-      </Button>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant="outline"
+            className="cursor-pointer"
+            size="icon"
+            onClick={() => openEditModal(noteToEdit)}
+          >
+            <Pencil />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Edit note</p>
+        </TooltipContent>
+      </Tooltip>
       <DialogContent className="max-w-xs sm:max-w-xs md:max-w-lg lg:max-w-2xl">
         <DialogHeader>
           <DialogTitle>Edit Note</DialogTitle>
@@ -180,7 +192,7 @@ export default function EditNoteModal({ onNoteEdited, noteToEdit }) {
                     Editing note...
                   </>
                 ) : (
-                  "Edit Note"
+                  "Edit"
                 )}
               </>
             </Button>

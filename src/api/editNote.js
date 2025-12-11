@@ -26,7 +26,7 @@ export const editNoteAPI = {
 
       return { data, error: null };
     } catch (error) {
-      console.error("Error editing notes:", error);
+      console.error("Error editing note:", error);
       return { data: null, error };
     }
   },
