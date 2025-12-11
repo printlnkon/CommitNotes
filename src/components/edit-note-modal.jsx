@@ -81,7 +81,7 @@ export default function EditNoteModal({ onNoteEdited, noteToEdit }) {
       setOpen(false);
       // edit/update note list
       if (onNoteEdited) {
-        // onNoteEdited prop passed from note-card.jsx
+        // onNoteEdited prop passed from note-card.jsx (parent component)
         onNoteEdited();
       }
     }
@@ -180,7 +180,7 @@ export default function EditNoteModal({ onNoteEdited, noteToEdit }) {
                     Editing note...
                   </>
                 ) : (
-                  "Edit Note"
+                  "Edit"
                 )}
               </>
             </Button>

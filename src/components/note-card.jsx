@@ -9,10 +9,11 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ButtonGroup, ButtonGroupSeparator } from "@/components/ui/button-group";
+import { ButtonGroup } from "@/components/ui/button-group";
 import EditNoteModal from "@/components/edit-note-modal";
+import ArchiveNoteModal from "@/components/archive-note-modal";
 
-export default function NoteCard({ note, onNoteEdited }) {
+export default function NoteCard({ note, onNoteEdited, onNoteArchived }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   // check if content is long enough to need a "read more" button
@@ -58,7 +59,7 @@ export default function NoteCard({ note, onNoteEdited }) {
           )}
           <ButtonGroup>
             <EditNoteModal noteToEdit={note} onNoteEdited={onNoteEdited} />
-            {/* <EditNoteModal onNoteEdited={onNoteEdited} /> */}
+            <ArchiveNoteModal noteToArchive={note} onNoteArchived={onNoteArchived} />
           </ButtonGroup>
         </div>
       </CardContent>
