@@ -1,6 +1,6 @@
 import { Spinner } from "@/components/ui/spinner";
 
-export default function Loader({ text = "Loading..." }) {
+export default function LoadingState({ text = "Loading..." }) {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-0">
       <div className="flex flex-col items-center">

@@ -7,7 +7,7 @@ export const homeAPI = {
       // fetch all notes
       const { data, error } = await supabase
         .from("notes")
-        .select("*")
+        .select()
         .order("created_at", { ascending: false });
 
       if (error) throw error;
@@ -18,5 +18,3 @@ export const homeAPI = {
     }
   },
 };
-
-// add notes
