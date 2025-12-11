@@ -4,16 +4,16 @@ import supabase from "@/config/supabase";
 export const addNoteAPI = {
   async addNote({ title, note }) {
     try {
-      // set default title if empty
-      const finalTitle =
-        typeof title !== "string" || title.trim() === ""
-          ? "Untitled"
-          : title.trim();
+      // validate title andset default title if empty
+      const finalTitle = typeof title !== "string" || title.trim() === "" ? "Untitled" : title.trim();
+      if (finalTitle.length > 100) {
+        throw new Error("Invalid input. Title must be at most 100 characters.");
+      }
 
       // validate note
       const finalNote = typeof note === "string" ? note.trim() : "";
-      if (finalNote.trim().length < 1 || finalNote.trim().length > 5000) {
-        throw new Error("Invalid input. Note must be 1-5000 characters.");
+      if (finalNote.length < 3 || finalNote.length > 5000) {
+        throw new Error("Invalid input. Note must be 3-5000 characters.");
       }
 
       // add note
