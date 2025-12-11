@@ -67,7 +67,7 @@ export default function Home() {
         {/* no notes state */}
         {!loading && !error && notes.length === 0 && (
           <EmptyState
-            title="No notes found"
+            title="No notes in Home"
             message="Start organizing your thoughts by creating your first note."
           />
         )}
@@ -80,6 +80,7 @@ export default function Home() {
               note={note}
               onNoteEdited={fetchAllNotes}
               onNoteArchived={fetchAllNotes}
+              onNoteRestore={fetchAllNotes}
             />
           ))}
         </div>

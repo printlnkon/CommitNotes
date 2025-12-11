@@ -1,7 +1,7 @@
 import supabase from "@/config/supabase";
 
-// archive note API
 export const archiveNoteAPI = {
+  // archive note API
   async archiveNote({ id }) {
     try {
       // validate id
@@ -34,6 +34,7 @@ export const archiveNoteAPI = {
     }
   },
 
+  // get archived notes API
   async getArchivedNotes({ archived = true } = {}) {
     try {
       // fetch notes based on archived status

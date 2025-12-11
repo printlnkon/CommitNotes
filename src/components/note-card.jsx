@@ -12,12 +12,14 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ButtonGroup } from "@/components/ui/button-group";
 import EditNoteModal from "@/components/edit-note-modal";
 import ArchiveNoteModal from "@/components/archive-note-modal";
+import RestoreNoteModal from "@/components/restore-note-modal";
 
 export default function NoteCard({
   note,
+  isArchived,
   onNoteEdited,
   onNoteArchived,
-  readOnly,
+  onNoteRestore,
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -63,10 +65,14 @@ export default function NoteCard({
             </Button>
           )}
           <ButtonGroup>
-            {!readOnly && (
+            {!isArchived ? (
               <>
                 <EditNoteModal noteToEdit={note} onNoteEdited={onNoteEdited} />
                 <ArchiveNoteModal noteToArchive={note} onNoteArchived={onNoteArchived} />
+              </>
+            ) : (
+              <>
+                <RestoreNoteModal noteToRestore={note} onNoteRestore={onNoteRestore} />
               </>
             )}
           </ButtonGroup>

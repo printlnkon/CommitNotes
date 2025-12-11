@@ -55,13 +55,13 @@ export default function ArchivedNotes() {
         {error && <ErrorState title={error} message={error} />}
         {!loading && !error && notes.length === 0 && (
           <EmptyState
-            title="No archived notes"
+            title="No notes in Archived"
             message="You have not archived any notes yet."
           />
         )}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 m-4">
           {notes.map((note) => (
-            <NoteCard key={note.id} note={note} readOnly />
+            <NoteCard key={note.id} note={note} onNoteRestore={fetchArchivedNotes} isArchived />
           ))}
         </div>
       </section>
