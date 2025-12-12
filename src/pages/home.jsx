@@ -81,6 +81,7 @@ export default function Home() {
               onNoteEdited={fetchAllNotes}
               onNoteArchived={fetchAllNotes}
               onNoteRestore={fetchAllNotes}
+              onNoteDelete={fetchAllNotes}
             />
           ))}
         </div>

@@ -61,7 +61,13 @@ export default function ArchivedNotes() {
         )}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 m-4">
           {notes.map((note) => (
-            <NoteCard key={note.id} note={note} onNoteRestore={fetchArchivedNotes} isArchived />
+            <NoteCard
+              key={note.id}
+              note={note}
+              isArchived
+              onNoteRestore={fetchArchivedNotes}
+              onNoteDelete={fetchArchivedNotes}
+            />
           ))}
         </div>
       </section>

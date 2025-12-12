@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/sonner";
 import Home from "@/pages/home";
 import Profile from "@/pages/profile";
 import PageNotFound from "@/pages/page-not-found";
-import ArchivedNotes from "@/pages/archived-note";
+import ArchivedNotes from "@/pages/archived-note-page";
 import ErrorBoundary from "@/components/error-boundary";
 
 function AppContent() {
