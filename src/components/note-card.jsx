@@ -13,6 +13,7 @@ import { ButtonGroup } from "@/components/ui/button-group";
 import EditNoteModal from "@/components/edit-note-modal";
 import ArchiveNoteModal from "@/components/archive-note-modal";
 import RestoreNoteModal from "@/components/restore-note-modal";
+import DeleteNoteModal from "@/components/delete-note-modal";
 
 export default function NoteCard({
   note,
@@ -20,6 +21,7 @@ export default function NoteCard({
   onNoteEdited,
   onNoteArchived,
   onNoteRestore,
+  onNoteDelete,
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -73,6 +75,7 @@ export default function NoteCard({
             ) : (
               <>
                 <RestoreNoteModal noteToRestore={note} onNoteRestore={onNoteRestore} />
+                <DeleteNoteModal noteToDelete={note} onNoteDelete={onNoteDelete} />
               </>
             )}
           </ButtonGroup>
