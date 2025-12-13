@@ -15,6 +15,7 @@ import EditNoteModal from "@/components/modal/edit-note-modal";
 import DeleteNoteModal from "@/components/modal/delete-note-modal";
 import ArchiveNoteModal from "@/components/modal/archive-note-modal";
 import RestoreNoteModal from "@/components/modal/restore-note-modal";
+import TextAreaMarkdownPreview from "@/components/markdown/text-area-markdown-preview";
 
 export default function NoteCard({
   note,
@@ -43,8 +44,10 @@ export default function NoteCard({
           <div className="text-sm font-medium text-foreground flex-1">
             {/* expanded view */}
             {isExpanded ? (
-              <ScrollArea className="h-60 rounded-md border">
-                <div className="whitespace-pre-wrap break-all">{note.note}</div>
+              <ScrollArea className="h-50 rounded-md border p-3">
+                <div className="whitespace-pre-wrap break-all">
+                  <TextAreaMarkdownPreview value={note.note} />
+                </div>
               </ScrollArea>
             ) : (
               // collapsed view
@@ -53,7 +56,7 @@ export default function NoteCard({
                   isNoteTruncated ? "line-clamp-2" : ""
                 }`}
               >
-                {note.note}
+                <TextAreaMarkdownPreview value={note.note} />
               </div>
             )}
           </div>

@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { ListPlus, LoaderCircle } from "lucide-react";
-import TextAreaQuillEditor from "@/components/text-area-mdeditor";
+import TextAreaMarkdownEditor from "@/components/markdown/text-area-markdown-editor";
 
 function getTitleError(titleText) {
   const trimmedTitle = titleText.trim();
@@ -123,7 +123,7 @@ export default function AddNoteModal({ onNoteAdded }) {
               <Label htmlFor="note">
                 Note <span className="text-destructive">*</span>{" "}
               </Label>
-              <TextAreaQuillEditor
+              <TextAreaMarkdownEditor
                 id="note"
                 name="note"
                 value={note.note}
