@@ -14,6 +14,7 @@ import EditNoteModal from "@/components/modal/edit-note-modal";
 import ArchiveNoteModal from "@/components/modal/archive-note-modal";
 import RestoreNoteModal from "@/components/modal/restore-note-modal";
 import DeleteNoteModal from "@/components/modal/delete-note-modal";
+import DownloadButton from "@/components/download-button";
 
 export default function NoteCard({
   note,
@@ -67,6 +68,7 @@ export default function NoteCard({
             </Button>
           )}
           <ButtonGroup>
+            <DownloadButton content={note.note} fileName={`${note.title} .txt`} />
             {!isArchived ? (
               <>
                 <EditNoteModal noteToEdit={note} onNoteEdited={onNoteEdited} />
