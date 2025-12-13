@@ -1,4 +1,4 @@
-import { CustomPreviewComponents } from "@/components/markdown/custom-preview-components";
+import { CustomPreviewStyle } from "@/components/markdown/custom-preview-style";
 import MarkdownPreview from "@uiw/react-markdown-preview/nohighlight";
 
 export default function TextAreaMarkdownPreview({ value }) {
@@ -10,9 +10,8 @@ export default function TextAreaMarkdownPreview({ value }) {
           color: "black",
           fontSize: "inherit",
           background: "transparent",
-          lineHeight: 1,
         }}
-        components={CustomPreviewComponents}
+        components={CustomPreviewStyle}
       />
     </>
   );

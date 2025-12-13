@@ -44,19 +44,22 @@ export default function NoteCard({
           <div className="text-sm font-medium text-foreground flex-1">
             {/* expanded view */}
             {isExpanded ? (
-              <ScrollArea className="h-50 rounded-md border p-3">
-                <div className="whitespace-pre-wrap break-all">
+              <ScrollArea className="h-[200px] w-full rounded-md border p-3">
+                <div className="relative w-full break-all whitespace-pre-wrap [&_pre]:break-normal [&_pre]:whitespace-pre [&_pre]:overflow-x-auto">
                   <TextAreaMarkdownPreview value={note.note} />
                 </div>
               </ScrollArea>
             ) : (
               // collapsed view
               <div
-                className={`whitespace-pre-wrap break-all ${
-                  isNoteTruncated ? "line-clamp-2" : ""
+                className={`relative w-full break-all whitespace-pre-wrap [&_pre]:break-normal [&_pre]:whitespace-pre [&_pre]:overflow-x-auto ${
+                  isNoteTruncated ? "h-[72px] overflow-hidden" : ""
                 }`}
               >
                 <TextAreaMarkdownPreview value={note.note} />
+                {isNoteTruncated && (
+                  <div className="absolute bottom-0 left-0 w-full h-8 bg-linear-to-t from-background to-transparent pointer-events-none" />
+                )}
               </div>
             )}
           </div>

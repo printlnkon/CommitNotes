@@ -1,6 +1,4 @@
-import React from "react";
-
-export const CustomPreviewComponents = {
+export const CustomPreviewStyle = {
   // table styles
   table: ({ children }) => (
     <table style={{ color: "black", background: "white" }}>{children}</table>
@@ -14,6 +12,26 @@ export const CustomPreviewComponents = {
     <td style={{ color: "black", background: "white" }}>{children}</td>
   ),
 
+  // code block style
+  pre: ({ children }) => (
+    <pre
+      style={{ background: "lightgray", color: "black", borderRadius: "5px" }}
+    >
+      {children}
+    </pre>
+  ),
+
+  blockquote: ({ children }) => (
+    <blockquote
+      style={{
+        color: "black", 
+        fontStyle: "italic",
+      }}
+    >
+      {children}
+    </blockquote>
+  ),
+
   // unordered list (ul) style
   ul: ({ children, ...props }) => {
     const isChecklist = props["data-type"] === "taskList";
@@ -23,8 +41,6 @@ export const CustomPreviewComponents = {
         <ul
           style={{
             listStyleType: "none",
-            marginLeft: "1.5em",
-            paddingLeft: "1.5em",
           }}
         >
           {children}
@@ -36,8 +52,6 @@ export const CustomPreviewComponents = {
       <ul
         style={{
           listStyleType: "disc",
-          marginLeft: "1.5em",
-          paddingLeft: "1.5em",
         }}
       >
         {children}
@@ -50,8 +64,6 @@ export const CustomPreviewComponents = {
     <ol
       style={{
         listStyleType: "decimal",
-        marginLeft: "1.5em",
-        paddingLeft: "1.5em",
       }}
     >
       {children}
@@ -60,8 +72,11 @@ export const CustomPreviewComponents = {
 
   // list item (li) style
   li: ({ children }) => {
-    const isChecklistItem = Array.isArray(children) && children.length > 0 && children[0]?.props?.type === "checkbox";
-    
+    const isChecklistItem =
+      Array.isArray(children) &&
+      children.length > 0 &&
+      children[0]?.props?.type === "checkbox";
+
     if (isChecklistItem) {
       return (
         <li
