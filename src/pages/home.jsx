@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 import { homeAPI } from "@/api/home";
 import { Link } from "react-router-dom";
+import { FileArchive } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import Header from "@/components/header";
 import NoteCard from "@/components/note-card";
-import { Button } from "@/components/ui/button";
 import Navigation from "@/components/navigation";
 import EmptyState from "@/components/empty-state";
 import ErrorState from "@/components/error-state";
 import LoadingState from "@/components/loading-state";
-import AddNoteModal from "@/components/add-note-modal";
-import { FileArchive } from "lucide-react";
+import AddNoteModal from "@/components/modal/add-note-modal";
 
 export default function Home() {
   const [notes, setNotes] = useState([]);
