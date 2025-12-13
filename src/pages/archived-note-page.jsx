@@ -59,16 +59,18 @@ export default function ArchivedNotes() {
             message="You have not archived any notes yet."
           />
         )}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 m-4">
-          {notes.map((note) => (
-            <NoteCard
-              key={note.id}
-              note={note}
-              isArchived
-              onNoteRestore={fetchArchivedNotes}
-              onNoteDelete={fetchArchivedNotes}
-            />
-          ))}
+        <div className="max-h-[65vh] overflow-y-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 m-4">
+            {notes.map((note) => (
+              <NoteCard
+                key={note.id}
+                note={note}
+                isArchived
+                onNoteRestore={fetchArchivedNotes}
+                onNoteDelete={fetchArchivedNotes}
+              />
+            ))}
+          </div>
         </div>
       </section>
     </main>
