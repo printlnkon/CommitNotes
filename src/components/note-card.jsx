@@ -10,11 +10,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ButtonGroup } from "@/components/ui/button-group";
+import DownloadButton from "@/components/download-button";
 import EditNoteModal from "@/components/modal/edit-note-modal";
+import DeleteNoteModal from "@/components/modal/delete-note-modal";
 import ArchiveNoteModal from "@/components/modal/archive-note-modal";
 import RestoreNoteModal from "@/components/modal/restore-note-modal";
-import DeleteNoteModal from "@/components/modal/delete-note-modal";
-import DownloadButton from "@/components/download-button";
 
 export default function NoteCard({
   note,
@@ -30,7 +30,7 @@ export default function NoteCard({
   const isNoteTruncated = note.note.length > 100;
 
   return (
-    <Card className="hover:shadow-lg transition-shadow duration-300">
+    <Card className="flex flex-col h-full hover:shadow-lg transition-shadow duration-300">
       <CardHeader>
         <CardTitle className="text-xl font-bold">{note.title}</CardTitle>
         <CardDescription className="text-xs font-normal">
@@ -38,46 +38,62 @@ export default function NoteCard({
         </CardDescription>
       </CardHeader>
       {/* content */}
-      <CardContent>
-        <div className="text-sm font-medium text-foreground flex justify-between">
-          {/* expanded view */}
-          {isExpanded ? (
-            <ScrollArea className="h-60 w-full rounded-md border p-3">
-              <div className="whitespace-pre-wrap break-all">{note.note}</div>
-            </ScrollArea>
-          ) : (
-            // collapsed view
-            <div
-              className={`whitespace-pre-wrap break-all ${
-                isNoteTruncated ? "line-clamp-3" : ""
-              }`}
-            >
-              {note.note}
-            </div>
-          )}
-
+      <CardContent className="flex flex-col flex-1">
+        <div className="flex-1 flex flex-col">
+          <div className="text-sm font-medium text-foreground flex-1">
+            {/* expanded view */}
+            {isExpanded ? (
+              <ScrollArea className="h-60 rounded-md border">
+                <div className="whitespace-pre-wrap break-all">{note.note}</div>
+              </ScrollArea>
+            ) : (
+              // collapsed view
+              <div
+                className={`whitespace-pre-wrap break-all ${
+                  isNoteTruncated ? "line-clamp-2" : ""
+                }`}
+              >
+                {note.note}
+              </div>
+            )}
+          </div>
           {/* button appears if text > 100 characters */}
           {isNoteTruncated && (
             <Button
               variant="link"
               size="sm"
               onClick={() => setIsExpanded(!isExpanded)}
-              className="p-0 h-auto font-normal text-chart-5 hover:text-chart-5/60 mt-2"
+              className="flex justify-start p-0 h-auto font-normal text-chart-5 hover:text-chart-5/60 mt-2"
             >
               {isExpanded ? "Show less" : "Read more"}
             </Button>
           )}
+        </div>
+
+        <div className="mt-4 flex justify-end">
           <ButtonGroup>
-            <DownloadButton content={note.note} fileName={`${note.title} .txt`} />
             {!isArchived ? (
               <>
+                <DownloadButton
+                  content={note.note}
+                  fileName={`${note.title}.txt`}
+                />
                 <EditNoteModal noteToEdit={note} onNoteEdited={onNoteEdited} />
-                <ArchiveNoteModal noteToArchive={note} onNoteArchived={onNoteArchived} />
+                <ArchiveNoteModal
+                  noteToArchive={note}
+                  onNoteArchived={onNoteArchived}
+                />
               </>
             ) : (
               <>
-                <RestoreNoteModal noteToRestore={note} onNoteRestore={onNoteRestore} />
-                <DeleteNoteModal noteToDelete={note} onNoteDelete={onNoteDelete} />
+                <RestoreNoteModal
+                  noteToRestore={note}
+                  onNoteRestore={onNoteRestore}
+                />
+                <DeleteNoteModal
+                  noteToDelete={note}
+                  onNoteDelete={onNoteDelete}
+                />
               </>
             )}
           </ButtonGroup>
