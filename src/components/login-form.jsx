@@ -17,15 +17,10 @@ export default function LoginForm({ className, ...props }) {
       <form>
         <FieldGroup>
           <div className="flex flex-col items-center gap-2 text-center">
-            <a
-              href="#"
-              className="flex flex-col items-center gap-2 font-medium"
-            >
-              <div className="flex size-8 items-center justify-center rounded-md">
-                <GalleryVerticalEnd className="size-6" />
-              </div>
-              <span className="sr-only">CommitNotes</span>
-            </a>
+            <div className="flex size-8 items-center justify-center rounded-md">
+              <GalleryVerticalEnd className="size-6" />
+            </div>
+            <span className="sr-only">CommitNotes</span>
             <h1 className="text-xl font-bold">Welcome to CommitNotes</h1>
             <FieldDescription>
               Don&apos;t have an account? <Link to="/signup">Sign up</Link>

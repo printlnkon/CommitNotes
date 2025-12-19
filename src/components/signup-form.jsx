@@ -29,6 +29,20 @@ export default function SignupForm({ className, ...props }) {
               Already have an account? <Link to="/login">Sign in</Link>
             </FieldDescription>
           </div>
+          {/* username */}
+          <Field>
+            <FieldLabel htmlFor="username">Username</FieldLabel>
+            <div className="relative flex items-center text-muted-foreground focus-within:text-foreground">
+              <User className="h-5 w-5 absolute ml-3 pointer-events-none" />
+              <Input
+                id="username"
+                type="username"
+                placeholder="Username"
+                className="pl-10"
+                required
+              />
+            </div>
+          </Field>
           {/* email */}
           <Field>
             <FieldLabel htmlFor="email">Email</FieldLabel>
