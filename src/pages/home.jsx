@@ -73,17 +73,19 @@ export default function Home() {
         )}
 
         {/* note cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 m-4">
-          {notes.map((note) => (
-            <NoteCard
-              key={note.id}
-              note={note}
-              onNoteEdited={fetchAllNotes}
-              onNoteArchived={fetchAllNotes}
-              onNoteRestore={fetchAllNotes}
-              onNoteDelete={fetchAllNotes}
-            />
-          ))}
+        <div className="max-h-[65vh] overflow-y-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 m-4">
+            {notes.map((note) => (
+              <NoteCard
+                key={note.id}
+                note={note}
+                onNoteEdited={fetchAllNotes}
+                onNoteArchived={fetchAllNotes}
+                onNoteRestore={fetchAllNotes}
+                onNoteDelete={fetchAllNotes}
+              />
+            ))}
+          </div>
         </div>
       </section>
     </main>

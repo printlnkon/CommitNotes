@@ -14,8 +14,8 @@ import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { ListPlus, LoaderCircle } from "lucide-react";
+import TextAreaMarkdownEditor from "@/components/markdown/text-area-markdown-editor";
 
 function getTitleError(titleText) {
   const trimmedTitle = titleText.trim();
@@ -90,7 +90,7 @@ export default function AddNoteModal({ onNoteAdded }) {
           New Note
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-xs sm:max-w-xs md:max-w-lg lg:max-w-2xl">
+      <DialogContent className="max-w-xs sm:max-w-xs md:max-w-lg lg:max-w-4xl">
         <DialogHeader>
           <DialogTitle>New Note</DialogTitle>
           <DialogDescription>
@@ -123,16 +123,11 @@ export default function AddNoteModal({ onNoteAdded }) {
               <Label htmlFor="note">
                 Note <span className="text-destructive">*</span>{" "}
               </Label>
-              <Textarea
+              <TextAreaMarkdownEditor
                 id="note"
                 name="note"
-                maxLength={5000}
-                autoFocus
-                required
-                placeholder="Note"
-                className="min-h-24 max-h-48 resize-y"
                 value={note.note}
-                onChange={(e) => setNote({ ...note, note: e.target.value })}
+                onChange={(value) => setNote({ ...note, note: value || "" })}
               />
               <div className="text-xs flex justify-between">
                 {open && note.note.length > 0 && getNoteError(note.note) && (
