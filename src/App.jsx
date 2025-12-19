@@ -5,6 +5,8 @@ import Profile from "@/pages/profile";
 import PageNotFound from "@/pages/page-not-found";
 import ArchivedNotes from "@/pages/archived-note-page";
 import ErrorBoundary from "@/components/error-boundary";
+import LoginPage from "@/pages/login/login-page.jsx";
+import SignupPage from "@/pages/signup/sign-up-page.jsx";
 
 function AppContent() {
   return (
@@ -15,6 +17,8 @@ function AppContent() {
           <Route path="/" element={<Home />} />
           <Route path="/archived-notes" element={<ArchivedNotes />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
         </Routes>
       </ErrorBoundary>
     </>
