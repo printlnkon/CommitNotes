@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { signUp } from "@/api/signUp";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { GalleryVerticalEnd, LoaderCircle, Lock, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -25,16 +25,21 @@ const ShowTextReminder = () => {
 };
 
 export default function SignupForm({ className, ...props }) {
-  const { register, handleSubmit, reset, formState: { errors, isValid }, } = useForm({ mode: "onChange" });
+  const {
+    control,
+    reset,
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm({ mode: "onChange" });
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data) => {
     setIsLoading(true);
 
-    const { username, email, password } = data;
+    const { email, password } = data;
 
     const { data: registeredData, error } = await signUp.registerUser({
-      username,
       email,
       password,
     });
@@ -50,6 +55,11 @@ export default function SignupForm({ className, ...props }) {
     }
     setIsLoading(false);
   };
+
+  const confirmPassword = useWatch({
+    control,
+    name: "password",
+  });
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -69,7 +79,7 @@ export default function SignupForm({ className, ...props }) {
             </FieldDescription>
           </div>
           {/* username */}
-          <Field>
+          {/* <Field>
             <FieldLabel htmlFor="username">Username</FieldLabel>
             <div className="relative flex items-center text-muted-foreground focus-within:text-foreground">
               <User className="h-5 w-5 absolute ml-3 pointer-events-none" />
@@ -92,7 +102,7 @@ export default function SignupForm({ className, ...props }) {
                   {errors.username.message}
                 </span>
               )}
-          </Field>
+          </Field> */}
           {/* email */}
           <Field>
             <FieldLabel htmlFor="email">Email</FieldLabel>
@@ -132,18 +142,56 @@ export default function SignupForm({ className, ...props }) {
                 required
                 {...register("password", {
                   required: true,
-                  pattern: {
+                  minLength: {
                     value: 8,
-                    message: "Password must be at least 8 digits.",
+                    message: "Password must be at least 8 characters.",
+                  },
+                  validate: {
+                    hasLowerCase: (value) =>
+                      /[a-z]/.test(value) ||
+                      "Must containt at least 1 lowercase letter",
+                    hasUpperCase: (value) =>
+                      /[A-Z]/.test(value) ||
+                      "Must contain at least 1 uppercase letter.",
+                    hasDigit: (value) =>
+                      /[0-9]/.test(value) || "Must contain at least 1 digit.",
+                    hasSymbol: (value) =>
+                      /[!@#$%^&*(),.?"":{}|<>]/.test(value) ||
+                      "Must contain at least 1 special character.",
                   },
                 })}
               />
-              {errors.password && (
-                <span className="text-xs text-destructive">
-                  {errors.password.message}
-                </span>
-              )}
             </div>
+            {errors.password && (
+              <span className="text-xs text-destructive">
+                {errors.password.message}
+              </span>
+            )}
+          </Field>
+          {/* confirm password */}
+          <Field>
+            <FieldLabel htmlFor="confirm-password">Confirm Password</FieldLabel>
+            <div className="relative flex items-center text-muted-foreground focus-within:text-foreground">
+              <Lock className="h-5 w-5 absolute ml-3 pointer-events-none" />
+              <Input
+                id="confirm-password"
+                type="password"
+                placeholder="********"
+                className="pl-10"
+                required
+                {...register("confirmPassword", {
+                  required: true,
+                  message: "Please confirm your password",
+                  validate: (value) => 
+                    value === confirmPassword || "Passwords do not match."
+                })}
+              />
+            </div>
+            {errors.password && (
+              <span className="text-xs text-destructive">
+                {errors.confirmPassword.message}
+              </span>
+            )}
           </Field>
           {/* show reminder to fill out all fields */}
           {!isValid && (

@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Toaster } from "@/components/ui/sonner";
+import { AuthProvider } from "@/context/AuthContext";
 import Home from "@/pages/home";
 import Profile from "@/pages/profile";
 import PageNotFound from "@/pages/page-not-found";
@@ -29,9 +30,11 @@ function App() {
   return (
     <>
       <Toaster richColors position="top-right" />
-      <Router>
-        <AppContent />
-      </Router>
+      <AuthProvider>
+        <Router>
+          <AppContent />
+        </Router>
+      </AuthProvider>
     </>
   );
 }
