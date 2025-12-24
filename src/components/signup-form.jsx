@@ -43,6 +43,7 @@ export default function SignupForm({ className, ...props }) {
       email,
       password,
     });
+
     if (error) {
       toast.error("Error signing up. Please try again.", error.message);
       setIsLoading(false);
@@ -149,7 +150,7 @@ export default function SignupForm({ className, ...props }) {
                   validate: {
                     hasLowerCase: (value) =>
                       /[a-z]/.test(value) ||
-                      "Must containt at least 1 lowercase letter",
+                      "Must contain at least 1 lowercase letter",
                     hasUpperCase: (value) =>
                       /[A-Z]/.test(value) ||
                       "Must contain at least 1 uppercase letter.",
@@ -182,12 +183,12 @@ export default function SignupForm({ className, ...props }) {
                 {...register("confirmPassword", {
                   required: true,
                   message: "Please confirm your password",
-                  validate: (value) => 
-                    value === confirmPassword || "Passwords do not match."
+                  validate: (value) =>
+                    value === confirmPassword || "Passwords do not match.",
                 })}
               />
             </div>
-            {errors.password && (
+            {errors.confirmPassword && (
               <span className="text-xs text-destructive">
                 {errors.confirmPassword.message}
               </span>
@@ -206,16 +207,14 @@ export default function SignupForm({ className, ...props }) {
               disabled={isLoading || !isValid}
               className="cursor-pointer"
             >
-              <>
-                {isLoading ? (
-                  <>
-                    <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
-                    Creating account...
-                  </>
-                ) : (
-                  "Create account"
-                )}
-              </>
+              {isLoading ? (
+                <>
+                  <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+                  Creating account...
+                </>
+              ) : (
+                "Create account"
+              )}
             </Button>
           </Field>
         </FieldGroup>

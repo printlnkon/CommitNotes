@@ -1,6 +1,7 @@
 import supabase from "@/config/supabase";
 
 export const signUp = {
+  // signup account API
   async registerUser({ email, password }) {
     try {
 
