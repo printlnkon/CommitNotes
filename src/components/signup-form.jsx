@@ -79,32 +79,6 @@ export default function SignupForm({ className, ...props }) {
               Already have an account? <Link to="/login">Sign in</Link>
             </FieldDescription>
           </div>
-          {/* username */}
-          {/* <Field>
-            <FieldLabel htmlFor="username">Username</FieldLabel>
-            <div className="relative flex items-center text-muted-foreground focus-within:text-foreground">
-              <User className="h-5 w-5 absolute ml-3 pointer-events-none" />
-              <Input
-                type="text"
-                id="username"
-                placeholder="Username"
-                className="pl-10"
-                required
-                {...register("username", {
-                  required: true,
-                  message: "Username is required.",
-                })}
-              />
-            </div>
-
-            {errors.username &&
-              !isValid(
-                <span className="text-xs text-destructive">
-                  {errors.username.message}
-                </span>
-              )}
-          </Field> */}
-          {/* email */}
           <Field>
             <FieldLabel htmlFor="email">Email</FieldLabel>
             <div className="relative flex items-center text-muted-foreground focus-within:text-foreground">
