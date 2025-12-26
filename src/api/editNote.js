@@ -22,7 +22,9 @@ export const editNoteAPI = {
         .update([{ title: finalTitle, note: finalNote }])
         .eq("id", id);
 
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
 
       return { data, error: null };
     } catch (error) {

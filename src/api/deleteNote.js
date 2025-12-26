@@ -16,7 +16,9 @@ export const deleteNoteAPI = {
         .delete()
         .eq("id", finalId);
 
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
 
       return { data, error: null };
     } catch (error) {

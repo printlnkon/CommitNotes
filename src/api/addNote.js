@@ -29,7 +29,9 @@ export const addNoteAPI = {
         .insert([{ title: finalTitle, note: finalNote, archived, user_id: user.id }])
         .select();
 
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
 
       return { data, error: null };
     } catch (error) {

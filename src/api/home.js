@@ -11,7 +11,10 @@ export const homeAPI = {
         .eq("archived", false)
         .order("created_at", { ascending: false });
 
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
+      
       return { data, error: null };
     } catch (error) {
       console.error("Error fetching notes:", error);

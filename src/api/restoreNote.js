@@ -17,8 +17,13 @@ export const restoreNoteAPI = {
         .eq("id", finalId)
         .single();
 
-      if (noteError) throw noteError;
-      if (!existingNote) throw new Error("Note not found.");
+      if (noteError) {
+        throw noteError;
+      }
+      
+      if (!existingNote) {
+        throw new Error("Note not found.");
+      }
 
       //  update the "archived" field to "FALSE"
       const { data, error } = await supabase
@@ -26,7 +31,10 @@ export const restoreNoteAPI = {
         .update({ archived: false })
         .eq("id", finalId);
 
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
+      
       return { data, error: null };
     } catch (error) {
       console.error("Error restoring note:", error);
