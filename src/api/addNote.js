@@ -16,10 +16,17 @@ export const addNoteAPI = {
         throw new Error("Invalid input. Note must be 3-5000 characters.");
       }
 
+      // get the current user
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      
+      if (userError || !user) {
+        throw new Error("User not authenticated");
+      }
+
       // add note
       const { data, error } = await supabase
         .from("notes")
-        .insert([{ title: finalTitle, note: finalNote, archived }])
+        .insert([{ title: finalTitle, note: finalNote, archived, user_id: user.id }])
         .select();
 
       if (error) throw error;

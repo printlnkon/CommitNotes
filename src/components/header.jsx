@@ -5,7 +5,7 @@ export default function Header() {
   return (
     <header className="flex items-center">
       <Link
-        to="/"
+        to="/home"
         className="text-xl sm:text-2xl md:text-3xl font-bold text-white cursor-pointer"
       >
         CommitNotes
