@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { signUpAPI } from "@/api/signup";
 import { useForm, useWatch } from "react-hook-form";
-import { GalleryVerticalEnd, LoaderCircle, Lock, User } from "lucide-react";
+import { Eye, EyeOff, GalleryVerticalEnd, LoaderCircle, Lock, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
@@ -33,6 +33,7 @@ export default function SignupForm({ className, ...props }) {
     formState: { errors, isValid },
   } = useForm({ mode: "onChange" });
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async (data) => {
     setIsLoading(true);
@@ -45,7 +46,7 @@ export default function SignupForm({ className, ...props }) {
     });
 
     if (error) {
-      toast.error("Error signing up. Please try again.", error.message);
+      toast.error(error.message || "Error signing up. Please try again.");
       setIsLoading(false);
     } else {
       toast.success(
@@ -111,7 +112,7 @@ export default function SignupForm({ className, ...props }) {
               <Lock className="h-5 w-5 absolute ml-3 pointer-events-none" />
               <Input
                 id="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="********"
                 className="pl-10"
                 required
@@ -136,6 +137,19 @@ export default function SignupForm({ className, ...props }) {
                   },
                 })}
               />
+              <button
+                type="button"
+                tabIndex={-1}
+                className="absolute right-2 p-1 text-muted-foreground hover:text-foreground"
+                onClick={() => setShowPassword((prev) => !prev)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? (
+                  <EyeOff className="h-5 w-5" />
+                ) : (
+                  <Eye className="h-5 w-5" />
+                )}
+              </button>
             </div>
             {errors.password && (
               <span className="text-xs text-destructive">
@@ -150,7 +164,7 @@ export default function SignupForm({ className, ...props }) {
               <Lock className="h-5 w-5 absolute ml-3 pointer-events-none" />
               <Input
                 id="confirm-password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="********"
                 className="pl-10"
                 required
@@ -161,6 +175,19 @@ export default function SignupForm({ className, ...props }) {
                     value === confirmPassword || "Passwords do not match.",
                 })}
               />
+              <button
+                type="button"
+                tabIndex={-1}
+                className="absolute right-2 p-1 text-muted-foreground hover:text-foreground"
+                onClick={() => setShowPassword((prev) => !prev)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? (
+                  <EyeOff className="h-5 w-5" />
+                ) : (
+                  <Eye className="h-5 w-5" />
+                )}
+              </button>
             </div>
             {errors.confirmPassword && (
               <span className="text-xs text-destructive">

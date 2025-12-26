@@ -2,7 +2,7 @@ import { useState } from "react";
 import { loginAPI } from "@/api/login";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { GalleryVerticalEnd, LoaderCircle, Lock, Mail } from "lucide-react";
+import { Eye, EyeOff, GalleryVerticalEnd, LoaderCircle, Lock, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -21,6 +21,7 @@ export default function LoginForm({ className, ...props }) {
     formState: { errors, isValid },
   } = useForm({ mode: "onChange" });
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
@@ -35,9 +36,10 @@ export default function LoginForm({ className, ...props }) {
 
     if (error) {
       toast.error("Error logging in. Please try again.");
-    } else {
-      toast.success("Login successful!", loginData);
-      navigate("/");
+    }
+    if (loginData) {
+      toast.success("Login successful")
+      navigate("/home")
     }
     setIsLoading(false);
   };
@@ -92,7 +94,7 @@ export default function LoginForm({ className, ...props }) {
               <Lock className="h-5 w-5 absolute ml-3 pointer-events-none" />
               <Input
                 id="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="********"
                 className="pl-10"
                 required
@@ -101,6 +103,19 @@ export default function LoginForm({ className, ...props }) {
                   message: "Invalid password.",
                 })}
               />
+              <button
+                type="button"
+                tabIndex={-1}
+                className="absolute right-2 p-1 text-muted-foreground hover:text-foreground"
+                onClick={() => setShowPassword((prev) => !prev)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? (
+                  <EyeOff className="h-5 w-5" />
+                ) : (
+                  <Eye className="h-5 w-5" />
+                )}
+              </button>
             </div>
             {errors.password && (
               <span className="text-xs text-destructive">

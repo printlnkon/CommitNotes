@@ -43,8 +43,10 @@ export const signUpAPI = {
         password,
       });
       
-      if (signUpError) throw signUpError;
-
+      if (signUpError) { 
+        throw signUpError;
+      }
+      
       return { data, error: null };
     } catch (error) {
       console.error("Error signing up:", error);
