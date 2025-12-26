@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { login } from "@/api/login";
+import { loginAPI } from "@/api/login";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { GalleryVerticalEnd, LoaderCircle, Lock, Mail } from "lucide-react";
@@ -28,7 +28,7 @@ export default function LoginForm({ className, ...props }) {
 
     const { email, password } = data;
 
-    const { data: loginData, error } = await login.loginUser({
+    const { data: loginData, error } = await loginAPI.loginUser({
       email,
       password,
     });

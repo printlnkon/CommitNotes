@@ -1,6 +1,6 @@
 import supabase from "@/config/supabase";
 
-export const logout = {
+export const logoutAPI = {
   async logoutUser() {
     try {
       const { error } = await supabase.auth.signOut();

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { signUp } from "@/api/signUp";
+import { signUpAPI } from "@/api/signup";
 import { useForm, useWatch } from "react-hook-form";
 import { GalleryVerticalEnd, LoaderCircle, Lock, User } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -39,7 +39,7 @@ export default function SignupForm({ className, ...props }) {
 
     const { email, password } = data;
 
-    const { data: registeredData, error } = await signUp.registerUser({
+    const { data: registeredData, error } = await signUpAPI.registerUser({
       email,
       password,
     });
