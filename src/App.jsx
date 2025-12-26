@@ -15,7 +15,7 @@ function AppContent() {
       <ErrorBoundary>
         <Routes>
           <Route path="*" element={<PageNotFound />} />
-          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/archived-notes" element={<ArchivedNotes />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/login" element={<LoginPage />} />

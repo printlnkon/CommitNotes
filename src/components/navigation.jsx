@@ -30,7 +30,7 @@ export default function Navigation() {
           <NavigationMenuList className={isMobile ? "flex-col gap-2" : "flex-row"}>
             {/* home */}
             <NavigationMenuItem>
-              <Link to="/" onClick={() => isMobile && setIsOpen(false)}>
+              <Link to="/home" onClick={() => isMobile && setIsOpen(false)}>
                 <Button variant="ghost" className={`text-white cursor-pointer ${isMobile ? "w-full justify-start" : ""}`}>
                   <HomeIcon />
                   Home

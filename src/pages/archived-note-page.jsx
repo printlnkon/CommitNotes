@@ -45,7 +45,7 @@ export default function ArchivedNotes() {
 
       <section className="px-4 md:px-8 lg:px-12">
         <h1 className="text-xl md:text-2xl font-bold p-4 md:p-6 flex items-center gap-2">
-          <Link to="/" title="Back to Home">
+          <Link to="/home" title="Back to Home">
             <ArrowLeftToLine className="inline h-8 w-8" />
           </Link>
           <span>Archived Notes</span>
