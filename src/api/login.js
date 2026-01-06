@@ -6,7 +6,8 @@ const validateEmail = (email) => {
 }
 
 const validatePassword = (password) => {
-  return password && password.length >= 8;
+  // at least 8 chars, 1 uppercase, 1 lowercase, and 1 number
+  return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(password);
 }
 
 // login API

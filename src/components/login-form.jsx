@@ -2,11 +2,20 @@ import { useState } from "react";
 import { loginAPI } from "@/api/login";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { Eye, EyeOff, GalleryVerticalEnd, LoaderCircle, Lock, Mail } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  GalleryVerticalEnd,
+  LoaderCircle,
+  Lock,
+  Mail,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import {
   Field,
   FieldDescription,
@@ -35,11 +44,11 @@ export default function LoginForm({ className, ...props }) {
     });
 
     if (error) {
-      toast.error("Error logging in. Please try again.");
+      toast.error("Invalid credentials. Please try again.");
     }
     if (loginData) {
-      toast.success("Login successful")
-      navigate("/home")
+      toast.success("Login successful");
+      navigate("/home");
     }
     setIsLoading(false);
   };
@@ -123,6 +132,13 @@ export default function LoginForm({ className, ...props }) {
               </span>
             )}
           </Field>
+          {/* remember me */}
+          <div className="flex items-center gap-2">
+            <Checkbox id="remember" {...register("remember")} />
+            <Label htmlFor="remember" className="cursor-pointer select-none">
+              Remember me
+            </Label>
+          </div>
           <Field>
             <Button
               type="submit"
