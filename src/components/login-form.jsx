@@ -7,7 +7,6 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
 import {
   Eye,
   EyeOff,
@@ -157,9 +156,9 @@ export default function LoginForm({ className, ...props }) {
           {/* remember me */}
           <div className="flex items-center gap-2">
             <Checkbox id="remember" {...register("remember")} />
-            <Label htmlFor="remember" className="cursor-pointer select-none">
+            <label htmlFor="remember" className="cursor-pointer select-none text-sm">
               Remember me
-            </Label>
+            </label>
           </div>
           <Field>
             <Button

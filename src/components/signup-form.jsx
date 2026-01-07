@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Field,
   FieldDescription,
@@ -32,6 +33,7 @@ const ShowTextReminder = () => {
     </>
   );
 };
+
 
 export default function SignupForm({ className, ...props }) {
   const {
@@ -255,6 +257,17 @@ export default function SignupForm({ className, ...props }) {
               <ShowTextReminder />
             </>
           )}
+
+          {/* terms of service & privacy policy checkbox */}
+          <div className="flex items-center gap-2">
+            <Checkbox id="terms-and-policy" {...register("terms-and-policy")} />
+            <label htmlFor="terms-and-policy" className="cursor-pointer select-none text-xs">
+              I agree to the{" "}
+              <Link to="/login" className="underline hover:text-chart-3 font-medium">Terms of Services</Link>{" "}and{" "}
+              <Link to="/login" className="underline hover:text-chart-3 font-medium">Privacy Policy</Link>
+            </label>
+          </div>
+
           {/* create account button */}
           <Field>
             <Button
