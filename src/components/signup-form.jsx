@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { signUpAPI } from "@/api/signup";
 import { useForm, useWatch } from "react-hook-form";
-import { Eye, EyeOff, GalleryVerticalEnd, LoaderCircle, Lock, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
@@ -13,6 +12,16 @@ import {
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
+import { 
+  CheckCircle,
+  Eye, 
+  EyeOff,
+  GalleryVerticalEnd,
+  LoaderCircle,
+  Lock,
+  User,
+  XCircle
+} from "lucide-react";
 
 const ShowTextReminder = () => {
   return (
@@ -62,6 +71,37 @@ export default function SignupForm({ className, ...props }) {
     control,
     name: "password",
   });
+
+  const passwordValue = useWatch({
+    control,
+    name: "password",
+    defaultValue: "",
+  });
+
+  const passwordChecks = [
+    {
+      label: "At least 1 number",
+      valid: /\d/.test(passwordValue),
+    },
+    {
+      label: "At least 8 characters",
+      valid: passwordValue.length >= 8,
+    },
+    {
+      label: "At least 1  lowercase letter",
+      valid: /[a-z]/.test(passwordValue),
+    },
+    {
+      label: "At least 1 uppercase letter",
+      valid: /[A-Z]/.test(passwordValue),
+    },
+    {
+      label: "At least 1 special character",
+      valid: /[!@#$%^&*(),.?":{}|<>]/.test(passwordValue),
+    }
+  ]
+
+
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -119,8 +159,8 @@ export default function SignupForm({ className, ...props }) {
                 {...register("password", {
                   required: true,
                   minLength: {
-                    value: 8,
-                    message: "Password must be at least 8 characters.",
+                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/,
+                    message: "Must contain at least 8 chars with uppercase, lowercase, and number.",
                   },
                   validate: {
                     hasLowerCase: (value) =>
@@ -158,7 +198,7 @@ export default function SignupForm({ className, ...props }) {
             )}
           </Field>
           {/* confirm password */}
-          <Field>
+          <Field orientation="responsive">
             <FieldLabel htmlFor="confirm-password">Confirm Password</FieldLabel>
             <div className="relative flex items-center text-muted-foreground focus-within:text-foreground">
               <Lock className="h-5 w-5 absolute ml-3 pointer-events-none" />
@@ -195,6 +235,20 @@ export default function SignupForm({ className, ...props }) {
               </span>
             )}
           </Field>
+          
+            <ul className="ml-2 space-y-1 text-xs">
+              {passwordChecks.map((check) => (
+                <li key={check.label} className="flex items-center gap-2">
+                  {check.valid ? (
+                    <CheckCircle className="text-chart-2 w-4 h-4"/>
+                  ) : (
+                    <XCircle className="text-destructive w-4 h-4"/>
+                  )}
+                  {check.label}
+                </li>
+              ))}
+            </ul>
+          
           {/* show reminder to fill out all fields */}
           {!isValid && (
             <>

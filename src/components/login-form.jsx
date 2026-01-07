@@ -13,7 +13,6 @@ import {
   EyeOff,
   GalleryVerticalEnd,
   Info,
-  LoaderCircle,
   Lock,
   Mail,
 } from "lucide-react";
@@ -26,7 +25,6 @@ import {
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
@@ -116,7 +114,7 @@ export default function LoginForm({ className, ...props }) {
                 <Info className="h-3.5 w-3.5 cursor-help"/>
               </TooltipTrigger>
               <TooltipContent>
-                <p>You only have 5 attempts to login.</p>
+                <p>Must contain at least 8 chars with uppercase, lowercase, and number.</p>
               </TooltipContent>
             </Tooltip>
             </div>
@@ -175,7 +173,7 @@ export default function LoginForm({ className, ...props }) {
                   Logging in...
                 </>
               ) : isRateLimited
-                  ? "Try again in 15 minutes."
+                  ? "Try again in 10 minutes."
                   : "Login"
               }
             </Button>

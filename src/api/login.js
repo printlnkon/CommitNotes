@@ -12,7 +12,7 @@ const validatePassword = (password) => {
 
 // rate limiting
 const RATE_LIMIT = 5; // max attempts
-const WINDOW_MINUTES = 15; // time window in minutes
+const WINDOW_MINUTES = 10; // time window in minutes
 
 // login API
 export const loginAPI = {
@@ -43,7 +43,7 @@ export const loginAPI = {
       console.log("Login attempts in window:", count);
 
       if (count >= RATE_LIMIT) {
-        throw new Error("Too many login attempts. Please try again in 15 minutes.");
+        throw new Error("Too many login attempts. Please try again in 10 minutes.");
       }
 
       // login
