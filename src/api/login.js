@@ -11,7 +11,7 @@ const validatePassword = (password) => {
 };
 
 // rate limiting
-const RATE_LIMIT = 5; // max attempts
+const RATE_LIMIT = 5; // max login attempts in single email & ip 
 const WINDOW_MINUTES = 10; // time window in minutes
 
 // login API

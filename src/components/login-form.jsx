@@ -29,6 +29,7 @@ import {
 
 export default function LoginForm({ className, ...props }) {
   const {
+    reset,
     register,
     handleSubmit,
     formState: { errors, isValid },
@@ -57,11 +58,14 @@ export default function LoginForm({ className, ...props }) {
 
     if (error) {
       if (error.message && error.message.includes("Too many login attempts")) {
-        toast.error("Too many login attempts. Please try again in 10 minutes.");
+        toast.error("Too many login attempts.", {
+          description: "Please try again in 10 minutes.",
+          duration: 3500,
+        });
         setIsRateLimited(true);
       } else {
-        toast.error("Invalid credentials. Please try again.", {
-          duration: 3000,
+        toast.error(error.message || "Invalid credentials. Please try again.", {
+          duration: 3200,
         });
       }
       setIsLoading(false);
@@ -69,8 +73,11 @@ export default function LoginForm({ className, ...props }) {
     } 
     
     if (loginData) {
-      toast.success("Login successful");
+      toast.success("Login successful", {
+        duration: 2000,
+      });
       navigate("/home");
+      reset();
     }
     setIsLoading(false);
   };
@@ -101,7 +108,7 @@ export default function LoginForm({ className, ...props }) {
                   <Info className="h-3.5 w-3.5 cursor-help"/>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Enter valid email.</p>
+                  <p>Input your email.</p>
                 </TooltipContent>
               </Tooltip>
             </div>
@@ -137,7 +144,7 @@ export default function LoginForm({ className, ...props }) {
                   <Info className="h-3.5 w-3.5 cursor-help"/>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Enter valid password.</p>
+                  <p>Input your password.</p>
                 </TooltipContent>
               </Tooltip>
             </div>

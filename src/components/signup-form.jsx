@@ -13,12 +13,17 @@ import {
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { 
   CheckCircle,
   Eye, 
   EyeOff,
   GalleryVerticalEnd,
-  LoaderCircle,
+  Info,
   Lock,
   User,
   XCircle
@@ -37,34 +42,56 @@ const ShowTextReminder = () => {
 
 export default function SignupForm({ className, ...props }) {
   const {
-    control,
     reset,
+    control,
     register,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm({ mode: "onChange" });
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [isRateLimited, setIsRateLimited] = useState(false);
 
   const onSubmit = async (data) => {
     setIsLoading(true);
 
     const { email, password } = data;
 
-    const { data: registeredData, error } = await signUpAPI.registerUser({
-      email,
-      password,
-    });
+    let ipAddress = "";
+    try {
+      const res = await fetch("https://api.ipify.org?format=json");
+      const ipData = await res.json();
+      ipAddress = ipData.ip;
+    } catch (error) {
+      console.error("Failed to get IP Address: ", error.message);
+      ipAddress = "unknown";
+    }
+
+    const { data: registeredData, error } = await signUpAPI.registerUser({ email, password, ipAddress });
 
     if (error) {
-      toast.error(error.message || "Error signing up. Please try again.");
-      setIsLoading(false);
-    } else {
-      toast.success(
-        "Account created successfully! Please check your email to verify your account.",
-        registeredData
-      );
+      if (error.message && error.message.includes("Too many signup attempts")) {
+        toast.error("Too many signup attempts.", {
+          description: "Please try again in an hour.",
+          duration: 3500,
+        }); 
+        setIsRateLimited(true);
+      } else {
+        toast.error(error.message || "Error signing up. Please try again.", {
+          duration: 3200,
+        });
+        setIsLoading(false);
+        return;
+      }
+    } 
+
+    if (registeredData) {
+      toast.success("Account created successfully.", {
+        description: "Please check your email to verify your account.",
+        duration: 3500,
+      });
       reset();
+      // TODO: navigate to page and display a message to verify their email
     }
     setIsLoading(false);
   };
@@ -103,8 +130,6 @@ export default function SignupForm({ className, ...props }) {
     }
   ]
 
-
-
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -123,7 +148,17 @@ export default function SignupForm({ className, ...props }) {
             </FieldDescription>
           </div>
           <Field>
-            <FieldLabel htmlFor="email">Email</FieldLabel>
+            <div className="flex items-center gap-2">
+              <Tooltip>
+                <FieldLabel htmlFor="email">Email</FieldLabel>
+                <TooltipTrigger asChild>
+                  <Info className="w-3.5 h-3.5 cursor-help"/>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Input your email.</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
             <div className="relative flex items-center text-muted-foreground focus-within:text-foreground">
               <User className="h-5 w-5 absolute ml-3 pointer-events-none" />
               <Input
@@ -149,7 +184,17 @@ export default function SignupForm({ className, ...props }) {
           </Field>
           {/* password */}
           <Field>
-            <FieldLabel htmlFor="password">Password</FieldLabel>
+            <div className="flex items-center gap-2">
+              <FieldLabel htmlFor="password">Password</FieldLabel>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Info className="w-3.5 h-3.5 cursor-help"/>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Input your password.</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
             <div className="relative flex items-center text-muted-foreground focus-within:text-foreground">
               <Lock className="h-5 w-5 absolute ml-3 pointer-events-none" />
               <Input
@@ -201,7 +246,17 @@ export default function SignupForm({ className, ...props }) {
           </Field>
           {/* confirm password */}
           <Field orientation="responsive">
-            <FieldLabel htmlFor="confirm-password">Confirm Password</FieldLabel>
+            <div className="flex items-center gap-2">
+              <FieldLabel htmlFor="confirm-password">Confirm Password</FieldLabel>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Info className="w-3.5 h-3.5 cursor-help"/>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Confirm your password.</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
             <div className="relative flex items-center text-muted-foreground focus-within:text-foreground">
               <Lock className="h-5 w-5 absolute ml-3 pointer-events-none" />
               <Input
@@ -272,12 +327,11 @@ export default function SignupForm({ className, ...props }) {
           <Field>
             <Button
               type="submit"
-              disabled={isLoading || !isValid}
+              disabled={isLoading || isRateLimited || !isValid}
               className="cursor-pointer"
             >
               {isLoading ? (
                 <>
-                  <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
                   Creating account...
                 </>
               ) : (
