@@ -2,7 +2,7 @@ import supabase from "@/config/supabase";
 
 export const signUpAPI = {
   // signup account API
-  async registerUser({ email, password }) {
+  async registerUser({ email, password, }) {
     try {
 
       // validate inputs
@@ -37,6 +37,8 @@ export const signUpAPI = {
         throw new Error("Password must contain at least one special character.");
       }
       
+      
+
       // signup user with supabase auth
       const { data, error: signUpError } = await supabase.auth.signUp({
         email,

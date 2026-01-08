@@ -43,15 +43,29 @@ export default function LoginForm({ className, ...props }) {
 
     const { email, password } = data;
 
-    const { data: loginData, error } = await loginAPI.loginUser({ email, password });
+    let ipAddress = "";
+    try {
+      const res = await fetch("https://api.ipify.org?format=json");
+      const ipData = await res.json();
+      ipAddress = ipData.ip;
+    } catch (error) {
+      console.error("Failed to get IP Address: ", error.message);
+      ipAddress = "unknown"
+    }
+
+    const { data: loginData, error } = await loginAPI.loginUser({ email, password, ipAddress });
 
     if (error) {
-      if (error.message.includes("Too many login attempts")) {
-        toast.error("Too many login attempts.");
+      if (error.message && error.message.includes("Too many login attempts")) {
+        toast.error("Too many login attempts. Please try again in 10 minutes.");
         setIsRateLimited(true);
       } else {
-        toast.error("Invalid credentials. Please try again.");
+        toast.error("Invalid credentials. Please try again.", {
+          duration: 3000,
+        });
       }
+      setIsLoading(false);
+      return;
     } 
     
     if (loginData) {
@@ -80,7 +94,17 @@ export default function LoginForm({ className, ...props }) {
           </div>
           {/* email */}
           <Field>
-            <FieldLabel htmlFor="email">Email</FieldLabel>
+            <div className="flex items-center gap-1">
+              <FieldLabel htmlFor="password">Email</FieldLabel>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Info className="h-3.5 w-3.5 cursor-help"/>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Enter valid email.</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
             <div className="relative flex items-center text-muted-foreground focus-within:text-foreground">
               <Mail className="h-5 w-5 absolute ml-3 pointer-events-none" />
               <Input
@@ -107,15 +131,15 @@ export default function LoginForm({ className, ...props }) {
           {/* password */}
           <Field>
             <div className="flex items-center gap-1">
-            <FieldLabel htmlFor="password">Password</FieldLabel>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Info className="h-3.5 w-3.5 cursor-help"/>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Must contain at least 8 chars with uppercase, lowercase, and number.</p>
-              </TooltipContent>
-            </Tooltip>
+              <FieldLabel htmlFor="password">Password</FieldLabel>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Info className="h-3.5 w-3.5 cursor-help"/>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Enter valid password.</p>
+                </TooltipContent>
+              </Tooltip>
             </div>
             <div className="relative flex items-center text-muted-foreground focus-within:text-foreground">
               <Lock className="h-5 w-5 absolute ml-3 pointer-events-none" />

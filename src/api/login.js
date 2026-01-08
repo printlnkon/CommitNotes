@@ -16,7 +16,7 @@ const WINDOW_MINUTES = 10; // time window in minutes
 
 // login API
 export const loginAPI = {
-  async loginUser({ email, password }) {
+  async loginUser({ email, password, ipAddress }) {
     try {
       // validation
       if (!email || !password) {
@@ -37,6 +37,7 @@ export const loginAPI = {
         .from("login_attempts")
         .select("*", { count: "exact", head: true })
         .eq("email", email)
+        .eq("ip_address", ipAddress)
         .gte("attempted_at", attemptWindowStart)
         .eq("is_successful", false)
 
@@ -60,6 +61,7 @@ export const loginAPI = {
         {
           email,
           attempted_at: attemptedDate,
+          ip_address: ipAddress,
           user_id: userId,
           is_successful: isSuccessful,
         },
