@@ -13,8 +13,8 @@ import Profile from "@/pages/profile/profile";
 import PageNotFound from "@/pages/page-not-found";
 import ArchivedNotes from "@/pages/archived-note-page";
 import ErrorBoundary from "@/components/error-boundary";
-import LoginPage from "@/pages/login/login-page.jsx";
-import SignupPage from "@/pages/signup/signup-page.jsx";
+import LoginPage from "@/pages/auth/login/login-page.jsx";
+import SignupPage from "@/pages/auth/signup/signup-page.jsx";
 
 function AppContent() {
   return (
