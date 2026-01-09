@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/context/AuthContext";
+import { useSessionManager } from "@/hooks/useSessionManager";
 import PublicRoute from "@/routes/public-route";
 import ProtectedRoute from "@/routes/protected-route";
 import Home from "@/pages/home";
@@ -15,6 +16,11 @@ import ArchivedNotes from "@/pages/archived-note-page";
 import ErrorBoundary from "@/components/error-boundary";
 import LoginPage from "@/pages/auth/login/login-page.jsx";
 import SignupPage from "@/pages/auth/signup/signup-page.jsx";
+
+function SessionManager({ children }) {
+  useSessionManager();
+  return children;
+}
 
 function AppContent() {
   return (
@@ -47,7 +53,9 @@ function App() {
       <Toaster richColors position="top-right" />
       <AuthProvider>
         <Router>
-          <AppContent />
+          <SessionManager>
+            <AppContent />
+          </SessionManager>
         </Router>
       </AuthProvider>
     </>

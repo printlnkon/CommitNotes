@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { loginAPI } from "@/api/login";
 import { Link, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -26,11 +26,14 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { logoutAPI } from "../api/logout";
 
 export default function LoginForm({ className, ...props }) {
   const {
     reset,
+    control,
     register,
+    setValue,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm({ mode: "onChange" });
@@ -39,10 +42,21 @@ export default function LoginForm({ className, ...props }) {
   const [isRateLimited, setIsRateLimited] = useState(false);
   const navigate = useNavigate();
 
+  // load remembered credentials on mount
+  useEffect(() => {
+    const { email, rememberMe } = logoutAPI.getRememberedCredentials();
+    if (email) {
+      setValue("email", email, { shouldValidate: true});
+    }
+    if (rememberMe) {
+      setValue("rememberMe", true);
+    }
+  }, [setValue]);
+
   const onSubmit = async (data) => {
     setIsLoading(true);
 
-    const { email, password } = data;
+    const { email, password, rememberMe } = data;
 
     let ipAddress = "";
     try {
@@ -54,7 +68,7 @@ export default function LoginForm({ className, ...props }) {
       ipAddress = "unknown"
     }
 
-    const { data: loginData, error } = await loginAPI.loginUser({ email, password, ipAddress });
+    const { data: loginData, error } = await loginAPI.loginUser({ email, password, ipAddress, rememberMe: rememberMe || false });
 
     if (error) {
       if (error.message && error.message.includes("Too many login attempts")) {
@@ -186,8 +200,20 @@ export default function LoginForm({ className, ...props }) {
           </Field>
           {/* remember me */}
           <div className="flex items-center gap-2">
-            <Checkbox id="remember" {...register("remember")} />
-            <label htmlFor="remember" className="cursor-pointer select-none text-sm">
+            <Controller 
+              name="rememberMe"
+              control={control}
+              defaultValue={false}
+              render={({ field }) => (
+                <Checkbox
+                  id="rememberMe"
+                  name="rememberMe"
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              )}
+            />
+            <label htmlFor="rememberMe" className="cursor-pointer select-none text-sm">
               Remember me
             </label>
           </div>

@@ -14,9 +14,15 @@ const validatePassword = (password) => {
 const RATE_LIMIT = 5; // max login attempts in single email & ip 
 const WINDOW_MINUTES = 10; // time window in minutes
 
+// remember me
+const STORAGE_KEYS = {
+  SHOULD_LOGOUT_ON_CLOSE: "should_logout_on_close",
+  PENDING_LOGOUT: "pending_logout",
+}
+
 // login API
 export const loginAPI = {
-  async loginUser({ email, password, ipAddress }) {
+  async loginUser({ email, password, ipAddress, rememberMe = false }) {
     try {
       // validation
       if (!email || !password) {
@@ -74,6 +80,13 @@ export const loginAPI = {
         throw error;
       }
 
+      // handle remember me function
+      if (!rememberMe) {
+        sessionStorage.setItem(STORAGE_KEYS.SHOULD_LOGOUT_ON_CLOSE, "true");
+      } else {
+        sessionStorage.removeItem(STORAGE_KEYS.SHOULD_LOGOUT_ON_CLOSE);
+      }
+
       return { data, error: null };
     } catch (error) {
       console.error("Error logging in: ", error);
@@ -83,10 +96,7 @@ export const loginAPI = {
 
   async getUser() {
     try {
-      const {
-        data: { user },
-        error,
-      } = await supabase.auth.getUser();
+      const { data: { user }, error, } = await supabase.auth.getUser();
 
       if (error) {
         return { user: null, error };
@@ -98,4 +108,22 @@ export const loginAPI = {
       return { user: null, error };
     }
   },
+
+  async logoutUser() {
+    try {
+      const { error } = await supabase.auth.signOut();
+      
+      sessionStorage.removeItem(STORAGE_KEYS.SHOULD_LOGOUT_ON_CLOSE);
+      localStorage.removeItem(STORAGE_KEYS.PENDING_LOGOUT);
+
+      if (error) {
+        throw error;
+      }
+
+      return { error: null };
+    } catch (error) {
+      console.error("Error logging out: ", error);
+      return { error };
+    }
+  }
 };
