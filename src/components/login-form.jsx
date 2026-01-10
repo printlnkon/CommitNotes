@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { logoutAPI } from "@/api/logout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -26,7 +27,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { logoutAPI } from "../api/logout";
 
 export default function LoginForm({ className, ...props }) {
   const {
@@ -68,7 +68,12 @@ export default function LoginForm({ className, ...props }) {
       ipAddress = "unknown"
     }
 
-    const { data: loginData, error } = await loginAPI.loginUser({ email, password, ipAddress, rememberMe: rememberMe || false });
+    const { data: loginData, error } = await loginAPI.loginUser({
+      email,
+      password,
+      ipAddress,
+      rememberMe: rememberMe || false,
+    });
 
     if (error) {
       if (error.message && error.message.includes("Too many login attempts")) {
@@ -87,8 +92,8 @@ export default function LoginForm({ className, ...props }) {
     } 
     
     if (loginData) {
-      toast.success("Login successful", {
-        duration: 2000,
+      toast.success("Logged in successfully.", {
+        duration: 1200,
       });
       navigate("/home");
       reset();
@@ -231,7 +236,7 @@ export default function LoginForm({ className, ...props }) {
                 </>
               ) : isRateLimited
                   ? "Try again in 10 minutes."
-                  : "Login"
+                  : "Log in"
               }
             </Button>
           </Field>

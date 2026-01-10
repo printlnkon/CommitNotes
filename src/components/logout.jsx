@@ -17,7 +17,9 @@ export default function Logout() {
       toast.error("Error logging out.");
       setIsLoading(false);
     } else {
-      toast.success("Logged out successfully.");
+      toast.success("Logged out successfully.", {
+        duration: 1200,
+      });
       navigate("/login");
     }
   };

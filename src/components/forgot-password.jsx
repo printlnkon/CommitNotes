@@ -28,15 +28,16 @@ export default function ForgotPassword({ className, ...props }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const {
+    reset,
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (email) => {
+  const onSubmit = async (formData) => {
     setIsLoading(true);
 
-    const { data: resetPassword, error } = await forgotPasswordAPI.forgotPassword(email);
+    const { data: resetPassword, error } = await forgotPasswordAPI.forgotPassword(formData.email);
 
     if (error) {
       toast.error(error.message || "Failed to send reset link.");
@@ -48,6 +49,7 @@ export default function ForgotPassword({ className, ...props }) {
         duration: 3500,
       });
     }
+    reset();
 
     setIsLoading(false);
   };
@@ -72,7 +74,7 @@ export default function ForgotPassword({ className, ...props }) {
           {/* email */}
           <Field>
             <div className="flex items center gap-1">
-              <FieldLabel htmlFor="forgot-password">Email</FieldLabel>
+              <FieldLabel htmlFor="email">Email</FieldLabel>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Info className="h-3.5 w-3.5 cursor-help" />

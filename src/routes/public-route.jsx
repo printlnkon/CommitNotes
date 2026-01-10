@@ -14,7 +14,7 @@ export default function PublicRoute() {
   }
 
   // if user is authenticated, go to dashboard
-  if (user) {
+  if (user && location.pathname !== "/confirm-email") {
     return <Navigate to="/home" replace />;
   }
 
