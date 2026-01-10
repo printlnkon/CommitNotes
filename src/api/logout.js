@@ -7,7 +7,6 @@ const STORAGE_KEYS = {
   REMEMBER_ME_CHECKED: "remember_me_checked",
 };
 
-
 export const logoutAPI = {
   async logoutUser() {
     try {

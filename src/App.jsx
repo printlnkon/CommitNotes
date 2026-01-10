@@ -32,12 +32,12 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/confirm-email" element={<ConfirmEmailPage />} />
+          <Route path="/update-password" element={<UpdatePasswordPage />} />
 
           <Route element={<PublicRoute />}>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-            <Route path="/update-password" element={<UpdatePasswordPage />} />
           </Route>
 
           <Route element={<ProtectedRoute />}>

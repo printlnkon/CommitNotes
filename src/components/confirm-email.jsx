@@ -5,8 +5,8 @@ import { BadgeCheckIcon, BadgeX } from "lucide-react";
 
 export default function ConfirmEmail() {
   // for development or production mode, uncomment the code below
-  const { user = { email: "text@example.com" }, loading } = useAuth();
-
+  const { user, loading } = useAuth();
+  
   // to access for pure development mode, uncomment the code below
   // const user = { email: "test@example.com" };
 

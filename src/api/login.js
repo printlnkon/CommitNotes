@@ -108,22 +108,4 @@ export const loginAPI = {
       return { user: null, error };
     }
   },
-
-  async logoutUser() {
-    try {
-      const { error } = await supabase.auth.signOut();
-      
-      sessionStorage.removeItem(STORAGE_KEYS.SHOULD_LOGOUT_ON_CLOSE);
-      localStorage.removeItem(STORAGE_KEYS.PENDING_LOGOUT);
-
-      if (error) {
-        throw error;
-      }
-
-      return { error: null };
-    } catch (error) {
-      console.error("Error logging out: ", error);
-      return { error };
-    }
-  }
 };
