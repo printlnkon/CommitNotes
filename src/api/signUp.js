@@ -61,14 +61,7 @@ export const signUpAPI = {
       ])
 
       // signup user with supabase auth
-      const { data, error } = await supabase.auth.signUp(
-        { email, 
-          password,
-          options: {
-            emailRedirectTo: "http://localhost:5173/confirm-email",
-          }
-        },
-      );
+      const { data, error } = await supabase.auth.signUp({ email, password });
       
       if (error) { 
         throw error;
