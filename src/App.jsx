@@ -31,11 +31,11 @@ function AppContent() {
       <ErrorBoundary>
         <Routes>
           <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/confirm-email" element={<ConfirmEmailPage />} />
 
           <Route element={<PublicRoute />}>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
-            <Route path="/confirm-email" element={<ConfirmEmailPage />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/update-password" element={<UpdatePasswordPage />} />
           </Route>
