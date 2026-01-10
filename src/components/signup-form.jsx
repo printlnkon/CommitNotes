@@ -292,7 +292,7 @@ export default function SignupForm({ className, ...props }) {
               </span>
             )}
           </Field>
-          
+          {/* password validation checker */}
             <ul className="ml-2 space-y-1 text-xs">
               {passwordChecks.map((check) => (
                 <li key={check.label} className="flex items-center gap-2">
