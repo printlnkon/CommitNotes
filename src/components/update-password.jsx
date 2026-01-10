@@ -146,13 +146,13 @@ export default function UpdatePasswordPage({ className, ...props }) {
           {/* password */}
           <Field>
             <div className="flex items-center gap-1">
-              <FieldLabel htmlFor="password">Password</FieldLabel>
+              <FieldLabel htmlFor="password">New Password</FieldLabel>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Info className="h-3.5 w-3.5 cursor-help" />
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Input your password.</p>
+                  <p>Input your new password.</p>
                 </TooltipContent>
               </Tooltip>
             </div>

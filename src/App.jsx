@@ -16,6 +16,7 @@ import ArchivedNotes from "@/pages/archived-note-page";
 import ErrorBoundary from "@/components/error-boundary";
 import LoginPage from "@/pages/auth/login/login-page";
 import SignupPage from "@/pages/auth/signup/signup-page";
+import ConfirmEmailPage from "@/pages/auth/confirm-email/confirm-email-page";
 import ForgotPasswordPage from "@/pages/auth/forgot-password/forgot-password-page";
 import UpdatePasswordPage from "@/pages/auth/update-password/update-password-page";
 
@@ -34,6 +35,7 @@ function AppContent() {
           <Route element={<PublicRoute />}>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
+            <Route path="/confirm-email" element={<ConfirmEmailPage />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/update-password" element={<UpdatePasswordPage />} />
           </Route>

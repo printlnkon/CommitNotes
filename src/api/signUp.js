@@ -61,14 +61,12 @@ export const signUpAPI = {
       ])
 
       // signup user with supabase auth
-      const { data, error: signUpError } = await supabase.auth.signUp({ email, password });
+      const { data, error } = await supabase.auth.signUp({ email, password });
       
-      if (signUpError) { 
-        throw signUpError;
+      if (error) { 
+        throw error;
       }
 
-      console.log(signUpError.message);
-      
       return { data, error: null };
     } catch (error) {
       console.error("Error signing up:", error);

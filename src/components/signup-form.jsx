@@ -318,6 +318,7 @@ export default function SignupForm({ className, ...props }) {
             <Checkbox id="terms-and-policy" {...register("terms-and-policy")} />
             <label htmlFor="terms-and-policy" className="cursor-pointer select-none text-xs">
               I agree to the{" "}
+              {/* TODO: add links to actual terms of service and privacy policy */}
               <Link to="/login" className="underline hover:text-chart-3 font-medium">Terms of Services</Link>{" "}and{" "}
               <Link to="/login" className="underline hover:text-chart-3 font-medium">Privacy Policy</Link>
             </label>
@@ -330,26 +331,19 @@ export default function SignupForm({ className, ...props }) {
               disabled={isLoading || isRateLimited || !isValid}
               className="cursor-pointer"
             >
-              {isLoading ? (
+              {isLoading
+              ? (
                 <>
-                  Creating account...
+                Signing up...
                 </>
-              ) : (
-                "Create account"
-              )}
+              ) : isRateLimited
+                  ? "Try again after an hour"
+                  : "Sign up"
+              }
             </Button>
           </Field>
         </FieldGroup>
       </form>
-      {/* terms & condition */}
-      <FieldDescription className="px-6 text-center">
-        {/* TODO: add links to actual terms of service and privacy policy */}
-        {/* pop-up modal */}
-        By creating account, you agree to our <a href="#">
-          Terms of Service
-        </a>{" "}
-        and <a href="#">Privacy Policy</a>.
-      </FieldDescription>
     </div>
   );
 }
