@@ -103,7 +103,7 @@ export default function LoginForm({ className, ...props }) {
           <div className="flex flex-col items-center gap-2 text-center">
             {/* logo */}
             <div className="flex size-8 items-center justify-center rounded-md">
-              <GalleryVerticalEnd className="size-6" />
+              <GalleryVerticalEnd className="size-32" />
             </div>
             <span className="sr-only">CommitNotes</span>
             {/* title */}
@@ -217,6 +217,7 @@ export default function LoginForm({ className, ...props }) {
               Remember me
             </label>
           </div>
+          {/* login button */}
           <Field>
             <Button
               type="submit"
@@ -234,6 +235,12 @@ export default function LoginForm({ className, ...props }) {
               }
             </Button>
           </Field>
+        {/* forgot password */}
+        <FieldDescription className="flex items-center justify-end">
+          <Link to="/forgot-password" className="text-xs m-0">
+            Forgot password?
+          </Link>
+        </FieldDescription>
         </FieldGroup>
       </form>
     </div>
