@@ -20,10 +20,25 @@ const STORAGE_KEYS = {
   PENDING_LOGOUT: "pending_logout",
 }
 
+// get IP address of the user logging in
+const getIPAddress = async () => {
+  try {
+    const res = await fetch("https://api.ipify.org?format=json");
+    const ipData = await res.json();
+    return ipData.ip;
+  } catch (error) {
+    console.error("Failed to get IP Address:", error.message);
+    return "unknown"
+  }
+};
+
 // login API
 export const loginAPI = {
-  async loginUser({ email, password, ipAddress, rememberMe = false }) {
+  async loginUser({ email, password, rememberMe = false }) {
     try {
+      // get IP address of user
+      const ipAddressOfUser = await getIPAddress();
+
       // validation
       if (!email || !password) {
         throw new Error("Email and password are required");
@@ -43,7 +58,7 @@ export const loginAPI = {
         .from("login_attempts")
         .select("*", { count: "exact", head: true })
         .eq("email", email)
-        .eq("ip_address", ipAddress)
+        .eq("ip_address", ipAddressOfUser)
         .gte("attempted_at", attemptWindowStart)
         .eq("is_successful", false)
 
@@ -67,7 +82,7 @@ export const loginAPI = {
         {
           email,
           attempted_at: attemptedDate,
-          ip_address: ipAddress,
+          ip_address: ipAddressOfUser,
           user_id: userId,
           is_successful: isSuccessful,
         },

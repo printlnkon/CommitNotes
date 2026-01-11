@@ -57,17 +57,7 @@ export default function SignupForm({ className, ...props }) {
 
     const { email, password } = data;
 
-    let ipAddress = "";
-    try {
-      const res = await fetch("https://api.ipify.org?format=json");
-      const ipData = await res.json();
-      ipAddress = ipData.ip;
-    } catch (error) {
-      console.error("Failed to get IP Address: ", error.message);
-      ipAddress = "unknown";
-    }
-
-    const { data: registeredData, error } = await signUpAPI.registerUser({ email, password, ipAddress });
+    const { data: registeredData, error } = await signUpAPI.registerUser({ email, password });
 
     if (error) {
       if (error.message && error.message.includes("Too many signup attempts")) {

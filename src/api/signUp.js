@@ -4,10 +4,24 @@ import supabase from "@/config/supabase";
 const RATE_LIMIT = 5; // max signup attempts in a single IP
 const WINDOW_MINUTES = 10; // time window in minutes
 
+// get the IP address of the user registering
+const getIPAddress = async () => {
+  try {
+    const res = await fetch("https://api.ipify.org?format=json");
+    const ipData = await res.json();
+    return ipData.ip;
+  } catch (error) {
+    console.error("Failed to get the IP Address: ", error.message)
+    return "unknown";
+  }
+};
+
 // signup API
 export const signUpAPI = {
-  async registerUser({ email, password, ipAddress }) {
+  async registerUser({ email, password }) {
     try {
+      // get the IP address of user
+      const ipAddressOfUser = await getIPAddress();
 
       // validation
       if (!email || !password) {
@@ -45,7 +59,7 @@ export const signUpAPI = {
         .from("signup_attempts")
         .select("*", { count: "exact", head: true })
         .eq("email", email)
-        .eq("ip_address", ipAddress)
+        .eq("ip_address", ipAddressOfUser)
         .gte("attempted_at", attemptWindowStart)
 
       if (count >= RATE_LIMIT) {
@@ -56,7 +70,7 @@ export const signUpAPI = {
       await supabase.from("signup_attempts").insert([
         {
           email,
-          ip_address: ipAddress,
+          ip_address: ipAddressOfUser,
         }
       ])
 

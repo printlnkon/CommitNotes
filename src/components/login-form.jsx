@@ -58,20 +58,9 @@ export default function LoginForm({ className, ...props }) {
 
     const { email, password, rememberMe } = data;
 
-    let ipAddress = "";
-    try {
-      const res = await fetch("https://api.ipify.org?format=json");
-      const ipData = await res.json();
-      ipAddress = ipData.ip;
-    } catch (error) {
-      console.error("Failed to get IP Address: ", error.message);
-      ipAddress = "unknown"
-    }
-
     const { data: loginData, error } = await loginAPI.loginUser({
       email,
       password,
-      ipAddress,
       rememberMe: rememberMe || false,
     });
 
