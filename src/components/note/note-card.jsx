@@ -10,11 +10,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ButtonGroup } from "@/components/ui/button-group";
-import DownloadButton from "@/components/download-button";
-import EditNoteModal from "@/components/modal/edit-note-modal";
-import DeleteNoteModal from "@/components/modal/delete-note-modal";
-import ArchiveNoteModal from "@/components/modal/archive-note-modal";
-import RestoreNoteModal from "@/components/modal/restore-note-modal";
+import DownloadButton from "@/components/common/download-button";
+import EditNoteModal from "@/components/note/modal/edit-note-modal";
+import DeleteNoteModal from "@/components/note/modal/delete-note-modal";
+import ArchiveNoteModal from "@/components/note/modal/archive-note-modal";
+import RestoreNoteModal from "@/components/note/modal/restore-note-modal";
 import TextAreaMarkdownPreview from "@/components/markdown/text-area-markdown-preview";
 
 export default function NoteCard({

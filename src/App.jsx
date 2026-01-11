@@ -7,18 +7,18 @@ import {
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/context/AuthContext";
 import { useSessionManager } from "@/hooks/useSessionManager";
+import HomePage from "@/pages/home/home-page";
 import PublicRoute from "@/routes/public-route";
-import ProtectedRoute from "@/routes/protected-route";
-import Home from "@/pages/home";
-import Profile from "@/pages/profile/profile";
 import PageNotFound from "@/pages/page-not-found";
-import ArchivedNotes from "@/pages/archived-note-page";
-import ErrorBoundary from "@/components/error-boundary";
+import ProtectedRoute from "@/routes/protected-route";
 import LoginPage from "@/pages/auth/login/login-page";
+import ProfilePage from "@/pages/profile/profile-page";
+import ErrorBoundary from "@/components/common/error-boundary";
 import SignupPage from "@/pages/auth/signup/signup-page";
+import ArchivedNotePage from "@/pages/archived-note/archived-note-page";
 import ConfirmEmailPage from "@/pages/auth/confirm-email/confirm-email-page";
 import ForgotPasswordPage from "@/pages/auth/forgot-password/forgot-password-page";
-import ChangePasswordPage from "./pages/auth/change-password/change-password-page";
+import ChangePasswordPage from "@/pages/auth/change-password/change-password-page";
 
 function SessionManager({ children }) {
   useSessionManager();
@@ -41,9 +41,9 @@ function AppContent() {
           </Route>
 
           <Route element={<ProtectedRoute />}>
-            <Route path="/home" element={<Home />} />
-            <Route path="/archived-notes" element={<ArchivedNotes />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/archived-note" element={<ArchivedNotePage />} />
+            <Route path="/profile" element={<ProfilePage />} />
           </Route>
 
           <Route path="*" element={<PageNotFound />} />
