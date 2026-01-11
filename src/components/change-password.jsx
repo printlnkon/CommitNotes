@@ -1,12 +1,13 @@
-import { useState } from "react";
 import { toast } from "sonner";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { logoutAPI } from "@/api/logout";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { useForm, useWatch } from "react-hook-form";
-import { updatePasswordAPI } from "@/api/updatePassword";
+import { Link, useNavigate } from "react-router-dom";
+import { changePasswordAPI } from "@/api/changePassword";
 import {
   CheckCircle,
   Eye,
@@ -28,24 +29,29 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Link, useNavigate } from "react-router-dom";
 
-export default function UpdatePasswordPage({ className, ...props }) {
-  const { user, loading } = useAuth();
-  const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+export default function ChangePassword({ className, ...props }) {
   const navigate = useNavigate();
-
+  const { user, loading } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const {
+    reset,
     control,
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm();
+    formState: { errors, isValid },
+  } = useForm({ mode: "onChange" });
 
   const passwordValue = useWatch({
     control,
-    name: "password",
+    name: "newPassword",
+    defaultValue: "",
+  });
+
+  const confirmPassword = useWatch({
+    control,
+    name: "newPassword",
     defaultValue: "",
   });
 
@@ -72,26 +78,29 @@ export default function UpdatePasswordPage({ className, ...props }) {
     },
   ];
 
-  const onSubmit = async ({ password }) => {
+  const onSubmit = async ({ "newPassword": password }) => {
     setIsLoading(true);
 
-    const { data: updatePassword, error } = await updatePasswordAPI.updatePassword(password);
+    const { data: changePassword, error } = await changePasswordAPI.changePassword(password);
 
     if (error) {
       toast.error(error.message || "Failed to send reset link.");
+      setIsLoading(false);
+      return;
     }
 
-    // logout user once updating of password succeeded
-    await logoutAPI.logoutUser();
-
-    if (updatePassword) {
-      toast.success("Password updated successfully.", {
+    if (changePassword) {
+      toast.success("Password changed successfully.", {
         description: "You will be directed to login page.",
         duration: 3500,
       });
+      reset();
+      
+      navigate("/login")
+
+      // logout user once changing of password succeeded
+      await logoutAPI.logoutUser();
     }
-    navigate("/login")
-    
     setIsLoading(false);
   };
 
@@ -116,18 +125,19 @@ export default function UpdatePasswordPage({ className, ...props }) {
                 <div className="flex items-center justify-center rounded-md">
                   <RotateCcwKey className="size-28" />
                 </div>
-                <span className="sr-only">Update Password</span>
+                <span className="sr-only">Change Password</span>
                 {/* title */}
-                <h1 className="text-2xl font-bold">Update your password</h1>
+                <h1 className="text-2xl font-bold">Change your password</h1>
                 {/* subtitle */}
                 <FieldDescription className="text-xs text-muted-foreground">
-                  To keep your account secure, choose a password that follows the guidelines below.
+                  To keep your account secure, choose a password that follows
+                  the guidelines below.
                 </FieldDescription>
               </div>
               {/* password */}
               <Field>
                 <div className="flex items-center gap-1">
-                  <FieldLabel htmlFor="password">New Password</FieldLabel>
+                  <FieldLabel htmlFor="newPassword">New Password</FieldLabel>
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Info className="h-3.5 w-3.5 cursor-help" />
@@ -140,12 +150,12 @@ export default function UpdatePasswordPage({ className, ...props }) {
                 <div className="relative flex items-center text-muted-foreground focus-within:text-foreground">
                   <Lock className="h-5 w-5 absolute ml-3 pointer-events-none" />
                   <Input
-                    id="password"
+                    id="newPassword"
                     type={showPassword ? "text" : "password"}
                     placeholder="********"
                     className="pl-10"
                     required
-                    {...register("password", {
+                    {...register("newPassword", {
                       required: true,
                       pattern: {
                         value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/,
@@ -176,6 +186,58 @@ export default function UpdatePasswordPage({ className, ...props }) {
                   </span>
                 )}
               </Field>
+              {/* confirm password */}
+              <Field orientation="responsive">
+                <div className="flex items-center gap-2">
+                  <FieldLabel htmlFor="confirmPassword">
+                    Confirm Password
+                  </FieldLabel>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Info className="w-3.5 h-3.5 cursor-help" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Confirm your password.</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </div>
+                <div className="relative flex items-center text-muted-foreground focus-within:text-foreground">
+                  <Lock className="h-5 w-5 absolute ml-3 pointer-events-none" />
+                  <Input
+                    id="confirmPassword"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="********"
+                    className="pl-10"
+                    required
+                    {...register("confirmPassword", {
+                      required: true,
+                      message: "Please confirm your password",
+                      validate: (value) =>
+                        value === confirmPassword || "Passwords do not match.",
+                    })}
+                  />
+                  <button
+                    type="button"
+                    tabIndex={-1}
+                    className="absolute right-2 p-1 text-muted-foreground hover:text-foreground"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-5 w-5" />
+                    ) : (
+                      <Eye className="h-5 w-5" />
+                    )}
+                  </button>
+                </div>
+                {errors.confirmPassword && (
+                  <span className="text-xs text-destructive">
+                    {errors.confirmPassword.message}
+                  </span>
+                )}
+              </Field>
               {/* password validation checker */}
               <ul className="ml-2 space-y-1 text-xs">
                 {passwordChecks.map((check) => (
@@ -189,14 +251,14 @@ export default function UpdatePasswordPage({ className, ...props }) {
                   </li>
                 ))}
               </ul>
-              {/* update button */}
+              {/* change button */}
               <Field>
                 <Button
                   type="submit"
                   className="cursor-pointer"
-                  disabled={isLoading}
+                  disabled={isLoading || !isValid}
                 >
-                  {isLoading ? "Updating..." : "Update password"}
+                  {isLoading ? "Changing pass..." : "Change password"}
                 </Button>
               </Field>
             </FieldGroup>

@@ -29,6 +29,10 @@ import {
 } from "@/components/ui/tooltip";
 
 export default function LoginForm({ className, ...props }) {
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [isRateLimited, setIsRateLimited] = useState(false);
   const {
     reset,
     control,
@@ -37,10 +41,6 @@ export default function LoginForm({ className, ...props }) {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm({ mode: "onChange" });
-  const [isLoading, setIsLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [isRateLimited, setIsRateLimited] = useState(false);
-  const navigate = useNavigate();
 
   // load remembered credentials on mount
   useEffect(() => {
@@ -72,7 +72,7 @@ export default function LoginForm({ className, ...props }) {
         });
         setIsRateLimited(true);
       } else {
-        toast.error(error.message || "Invalid credentials. Please try again.", {
+        toast.error("Invalid credentials. Please try again.", {
           duration: 3200,
         });
       }
@@ -167,8 +167,8 @@ export default function LoginForm({ className, ...props }) {
                 {...register("password", {
                   required: true,
                   pattern: {
-                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/,
-                    message: "Must contain at least 8 chars with uppercase, lowercase, and number.",
+                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/,
+                    message: "Must contain at least 8 chars with uppercase, lowercase, number, and special character.",
                   }
                 })}
               />
@@ -225,7 +225,7 @@ export default function LoginForm({ className, ...props }) {
                 </>
               ) : isRateLimited
                   ? "Try again in 10 minutes."
-                  : "Log in"
+                  : "Login"
               }
             </Button>
           </Field>

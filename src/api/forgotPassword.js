@@ -5,7 +5,7 @@ export const forgotPasswordAPI = {
   async forgotPassword(email) {
     try {
       const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: "http://localhost:5173/update-password",
+        redirectTo: `${window.location.origin}/change-password`,
       });
 
       if (error) {

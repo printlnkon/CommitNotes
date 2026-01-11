@@ -1,5 +1,16 @@
 import supabase from "@/config/supabase";
 
+const validateEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+const validatePassword = (password) => {
+  // at least 8 chars, 1 uppercase, 1 lowercase, 1 number, and 1 special char
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+  return passwordRegex.test(password);
+};
+
 // rate limiting
 const RATE_LIMIT = 5; // max signup attempts in a single IP
 const WINDOW_MINUTES = 10; // time window in minutes
@@ -28,29 +39,12 @@ export const signUpAPI = {
         throw new Error("Email and password are required.");
       }
 
-      const emailRegex = /^\S+@\S+\.\S+$/;
-      if (!emailRegex.test(email)) {
-        throw new Error("Invalid email format.");
+      if (!validateEmail(email)) {
+        throw new Error("Invalid email format");
       }
 
-      if (password.length < 8) {
-        throw new Error("Password must be at least 8 characters long.");
-      }
-
-      if (!/[a-z]/.test(password)) {
-        throw new Error("Password must contain at least one lowercase letter.");
-      }
-
-      if (!/[A-Z]/.test(password)) {
-        throw new Error("Password must contain at least one uppercase letter.");
-      }
-
-      if (!/[0-9]/.test(password)) {
-        throw new Error("Password must contain at least one digit.");
-      }
-
-      if (!/[!@#$%^&*(),.?"":{}|<>]/.test(password)) {
-        throw new Error("Password must contain at least one special character.");
+      if (!validatePassword(password)) {
+        throw new Error("Password must be at least 8 characters and include uppercase, lowercase, number, and a special character.");
       }
       
       // check recent signup attempts
@@ -63,7 +57,7 @@ export const signUpAPI = {
         .gte("attempted_at", attemptWindowStart)
 
       if (count >= RATE_LIMIT) {
-        throw new Error("Too many signup attempts. Please try again in an hour.")
+        throw new Error("Too many signup attempts. Please try again in 10 minutes.")
       }
 
       // record signup attempts

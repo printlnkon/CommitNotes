@@ -18,7 +18,7 @@ import LoginPage from "@/pages/auth/login/login-page";
 import SignupPage from "@/pages/auth/signup/signup-page";
 import ConfirmEmailPage from "@/pages/auth/confirm-email/confirm-email-page";
 import ForgotPasswordPage from "@/pages/auth/forgot-password/forgot-password-page";
-import UpdatePasswordPage from "@/pages/auth/update-password/update-password-page";
+import ChangePasswordPage from "./pages/auth/change-password/change-password-page";
 
 function SessionManager({ children }) {
   useSessionManager();
@@ -32,7 +32,7 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/confirm-email" element={<ConfirmEmailPage />} />
-          <Route path="/update-password" element={<UpdatePasswordPage />} />
+          <Route path="/change-password" element={<ChangePasswordPage />} />
 
           <Route element={<PublicRoute />}>
             <Route path="/login" element={<LoginPage />} />

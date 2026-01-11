@@ -6,8 +6,9 @@ const validateEmail = (email) => {
 };
 
 const validatePassword = (password) => {
-  // at least 8 chars, 1 uppercase, 1 lowercase, and 1 number
-  return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(password);
+  // at least 8 chars, 1 uppercase, 1 lowercase, 1 number, and 1 special char
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+  return passwordRegex.test(password);
 };
 
 // rate limiting
@@ -49,7 +50,7 @@ export const loginAPI = {
       }
 
       if (!validatePassword(password)) {
-        throw new Error("Password must be at least 8 characters");
+        throw new Error("Password must be at least 8 characters and include uppercase, lowercase, number, and a special character.");
       }
 
       // check recent login attempts

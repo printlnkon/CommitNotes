@@ -1,7 +1,7 @@
 import supabase from "@/config/supabase";
 
-export const updatePasswordAPI = {
-  async updatePassword(password) {
+export const changePasswordAPI = {
+  async changePassword(password) {
     try {
       const { data, error } = await supabase.auth.updateUser({ password });
 

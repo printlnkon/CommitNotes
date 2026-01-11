@@ -1,10 +1,10 @@
-import UpdatePassword from "@/components/update-password";
+import ChangePassword from "@/components/change-password";
 
-export default function UpdatePasswordPage() {
+export default function ChangePasswordPage() {
   return (
     <div className="w-full min-h-screen flex items-center justify-center">
       <div className="w-full max-w-xs">
-        <UpdatePassword />
+        <ChangePassword />
       </div>
     </div>
   );
