@@ -13,8 +13,9 @@ import PageNotFound from "@/pages/page-not-found";
 import ProtectedRoute from "@/routes/protected-route";
 import LoginPage from "@/pages/auth/login/login-page";
 import ProfilePage from "@/pages/profile/profile-page";
-import ErrorBoundary from "@/components/common/error-boundary";
 import SignupPage from "@/pages/auth/signup/signup-page";
+import ErrorBoundary from "@/components/common/error-boundary";
+import LandingPage from "@/pages/landing-page/landing-page";
 import ArchivedNotePage from "@/pages/archived-note/archived-note-page";
 import ConfirmEmailPage from "@/pages/auth/confirm-email/confirm-email-page";
 import ForgotPasswordPage from "@/pages/auth/forgot-password/forgot-password-page";
@@ -30,7 +31,7 @@ function AppContent() {
     <>
       <ErrorBoundary>
         <Routes>
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/" element={<LandingPage />} />
           <Route path="/confirm-email" element={<ConfirmEmailPage />} />
           <Route path="/change-password" element={<ChangePasswordPage />} />
 

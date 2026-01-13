@@ -96,8 +96,10 @@ export default function LoginForm({ className, ...props }) {
         <FieldGroup>
           <div className="flex flex-col items-center gap-2 text-center">
             {/* logo */}
-            <div className="flex size-8 items-center justify-center rounded-md">
-              <GalleryVerticalEnd className="size-32" />
+            <div className="flex size-12 items-center justify-center rounded-md">
+              <Link to="/" title="Go to Landing page">
+                <GalleryVerticalEnd className="size-12" />
+              </Link>
             </div>
             <span className="sr-only">CommitNotes</span>
             {/* title */}
