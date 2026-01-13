@@ -2,14 +2,14 @@ import { useCallback, useEffect, useState } from "react";
 import { archiveNoteAPI } from "@/api/archiveNote";
 import { ArrowLeftToLine } from "lucide-react";
 import { Link } from "react-router-dom";
-import Header from "@/components/header.jsx";
-import NoteCard from "@/components/note-card";
-import EmptyState from "@/components/empty-state";
-import ErrorState from "@/components/error-state";
-import Navigation from "@/components/navigation.jsx";
-import LoadingState from "@/components/loading-state";
+import Header from "@/components/layout/header";
+import NoteCard from "@/components/note/note-card";
+import EmptyState from "@/components/common/empty-state";
+import ErrorState from "@/components/common/error-state";
+import Navigation from "@/components/layout/navigation";
+import LoadingState from "@/components/common/loading-state";
 
-export default function ArchivedNotes() {
+export default function ArchivedNotePage() {
   const [notes, setNotes] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);

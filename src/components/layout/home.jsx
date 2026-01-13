@@ -3,13 +3,13 @@ import { homeAPI } from "@/api/home";
 import { Link } from "react-router-dom";
 import { FileArchive } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Header from "@/components/header";
-import NoteCard from "@/components/note-card";
-import Navigation from "@/components/navigation";
-import EmptyState from "@/components/empty-state";
-import ErrorState from "@/components/error-state";
-import LoadingState from "@/components/loading-state";
-import AddNoteModal from "@/components/modal/add-note-modal";
+import Header from "@/components/layout/header";
+import NoteCard from "@/components/note/note-card";
+import Navigation from "@/components/layout/navigation";
+import EmptyState from "@/components/common/empty-state";
+import ErrorState from "@/components/common/error-state";
+import LoadingState from "@/components/common/loading-state";
+import AddNoteModal from "@/components/note/modal/add-note-modal";
 
 export default function Home() {
   const [notes, setNotes] = useState([]);
@@ -51,7 +51,7 @@ export default function Home() {
         {/* add note modal */}
         <div className="px-4 md:px-4 lg:px-5 items-center flex gap-2">
           <AddNoteModal onNoteAdded={fetchAllNotes} />
-          <Link to="/archived-notes" title="View archived notes">
+          <Link to="/archived-note" title="View archived notes">
             <Button className="cursor-pointer">
               <FileArchive />
               View Archived Notes

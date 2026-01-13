@@ -1,4 +1,4 @@
-import ConfirmEmail from "@/components/confirm-email";
+import ConfirmEmail from "@/components/auth/confirm-email";
 
 export default function ConfirmEmailPage() {
   return (
