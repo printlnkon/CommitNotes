@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { signUpAPI } from "@/api/signup";
+import { signUpAPI } from "@/api/signUp";
 import { useForm, useWatch } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
