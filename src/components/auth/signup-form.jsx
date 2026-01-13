@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { signUpAPI } from "@/api/signUp";
-import { useForm, useWatch } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
@@ -117,7 +117,9 @@ export default function SignupForm({ className, ...props }) {
         description: "Please check your email to verify your account.",
         duration: 3500,
       });
-      reset();
+      reset({
+        termsAndPolicy: false,
+      });
     }
     setIsLoading(false);
   };
@@ -313,28 +315,47 @@ export default function SignupForm({ className, ...props }) {
 
           {/* terms of service & privacy policy checkbox */}
           <div className="flex items-center gap-2">
-            <Checkbox id="terms-and-policy" {...register("terms-and-policy")} />
+            <Controller
+              name="termsAndPolicy"
+              control={control}
+              rules={{
+                validate: (value) =>
+                  value === true || "You must agree to the Terms of Service and Privacy Policy.",
+              }}
+              render={({ field }) => (
+                <Checkbox
+                  id="termsAndPolicy"
+                  name="termsAndPolicy"
+                  checked={!!field.value}
+                  onCheckedChange={field.onChange}
+                />
+              )}
+            />
             <label
-              htmlFor="terms-and-policy"
+              htmlFor="termsAndPolicy"
               className="cursor-pointer select-none text-xs"
             >
               I agree to the{" "}
-              {/* TODO: add links to actual terms of service and privacy policy */}
               <Link
-                to="/login"
-                className="underline hover:text-chart-3 font-medium"
+                to="/terms-of-service"
+                className="hover:text-chart-3 font-medium"
               >
                 Terms of Services
               </Link>{" "}
               and{" "}
               <Link
-                to="/login"
-                className="underline hover:text-chart-3 font-medium"
+                to="/privacy-policy"
+                className="hover:text-chart-3 font-medium"
               >
                 Privacy Policy
               </Link>
             </label>
           </div>
+          {errors.termsAndPolicy && (
+            <span className="text-xs text-destructive">
+              {errors.termsAndPolicy.message}
+            </span>
+          )}
 
           {/* create account button */}
           <Field>

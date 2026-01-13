@@ -20,6 +20,8 @@ import ArchivedNotePage from "@/pages/archived-note/archived-note-page";
 import ConfirmEmailPage from "@/pages/auth/confirm-email/confirm-email-page";
 import ForgotPasswordPage from "@/pages/auth/forgot-password/forgot-password-page";
 import ChangePasswordPage from "@/pages/auth/change-password/change-password-page";
+import TermsOfServicePage from "@/pages/terms-of-service/terms-of-service-page";
+import PrivacyPolicyPage from "@/pages/privacy-policy/privacy-policy-page";
 
 function SessionManager({ children }) {
   useSessionManager();
@@ -34,6 +36,8 @@ function AppContent() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/confirm-email" element={<ConfirmEmailPage />} />
           <Route path="/change-password" element={<ChangePasswordPage />} />
+          <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
 
           <Route element={<PublicRoute />}>
             <Route path="/login" element={<LoginPage />} />
