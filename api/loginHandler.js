@@ -1,5 +1,10 @@
 import { createClient } from "@supabase/supabase-js";
 
+const supabase = createClient(
+  process.env.VITE_SUPABASE_PROJECT_URL,
+  process.env.VITE_SUPABASE_SERVICE_ROLE_KEY
+);
+
 const RATE_LIMIT = 5;
 const WINDOW_MINUTES = 10;
 
@@ -9,7 +14,8 @@ const validateEmail = (email) => {
 };
 
 const validatePassword = (password) => {
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+  const passwordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
   return passwordRegex.test(password);
 };
 
@@ -29,12 +35,6 @@ export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
-
-  // initialize supabase client
-  const supabase = createClient(
-    import.meta.process.env.VITE_SUPABASE_PROJECT_URL,
-    import.meta.process.env.VITE_SUPABASE_SERVICE_ROLE_KEY
-  );
 
   try {
     const { email, password } = req.body;
@@ -63,7 +63,9 @@ export default async function handler(req, res) {
     }
 
     // check recent login attempts (rate limiting)
-    const attemptWindowStart = new Date(Date.now() - WINDOW_MINUTES * 60 * 1000).toISOString();
+    const attemptWindowStart = new Date(
+      Date.now() - WINDOW_MINUTES * 60 * 1000
+    ).toISOString();
     const { count } = await supabase
       .from("login_attempts")
       .select("*", { count: "exact", head: true })

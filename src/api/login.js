@@ -11,7 +11,7 @@ export const loginAPI = {
   async loginUser({ email, password, rememberMe = false }) {
     try {
       // call the backend API route for rate-limited login
-      const response = await fetch('/api/login', {
+      const response = await fetch('/api/loginHandler', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
