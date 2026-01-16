@@ -5,6 +5,8 @@ const supabase = createClient(
   process.env.VITE_SUPABASE_SERVICE_ROLE_KEY
 );
 
+const frontEndURL = process.env.FRONTEND_URL.replace(/\/$/, "");
+
 const RATE_LIMIT = 5;
 const WINDOW_MINUTES = 10;
 
@@ -84,7 +86,7 @@ export default async function handler(req, res) {
       email,
       password,
       options: {
-        emailRedirectTo: `${window.location.origin || "http://localhost:3000"}/confirm-email`,
+        emailRedirectTo: `${frontEndURL || "http://localhost:3000"}/confirm-email`,
       },
     });
 
