@@ -5,7 +5,7 @@ const supabase = createClient(
   process.env.VITE_SUPABASE_SERVICE_ROLE_KEY
 );
 
-const frontEndURL = process.env.FRONTEND_URL.replace(/\/$/, "");
+const frontEndURL = (process.env.FRONTEND_URL ? process.env.FRONTEND_URL.replace(/\/$/, "") : "http://localhost:3000");
 
 const RATE_LIMIT = 5;
 const WINDOW_MINUTES = 10;
@@ -82,9 +82,11 @@ export default async function handler(req, res) {
     ]);
 
     // sign up user
+    const attemptedAt = new Date().toISOString();
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
+      attempted_at: attemptedAt,
       options: {
         emailRedirectTo: `${frontEndURL || "http://localhost:3000"}/confirm-email`,
       },
