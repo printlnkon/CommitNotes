@@ -22,6 +22,7 @@ import ForgotPasswordPage from "@/pages/auth/forgot-password/forgot-password-pag
 import ChangePasswordPage from "@/pages/auth/change-password/change-password-page";
 import TermsOfServicePage from "@/pages/terms-of-service/terms-of-service-page";
 import PrivacyPolicyPage from "@/pages/privacy-policy/privacy-policy-page";
+import LandingHeaderNavigationPage from "@/pages/landing-page/landing-header-navigation-page";
 
 function SessionManager({ children }) {
   useSessionManager();
@@ -33,15 +34,17 @@ function AppContent() {
     <>
       <ErrorBoundary>
         <Routes>
-          <Route path="/" element={<LandingPage />} />
           <Route path="/confirm-email" element={<ConfirmEmailPage />} />
           <Route path="/change-password" element={<ChangePasswordPage />} />
           <Route path="/terms-of-service" element={<TermsOfServicePage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
 
           <Route element={<PublicRoute />}>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
+            <Route element={<LandingHeaderNavigationPage />}>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<SignupPage />} />
+            </Route>
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           </Route>
 

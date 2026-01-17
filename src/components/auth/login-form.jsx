@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
-  ArrowLeft,
   Eye,
   EyeOff,
   GalleryVerticalEnd,
@@ -54,11 +53,6 @@ export default function LoginForm({ className, ...props }) {
     }
   }, [setValue]);
 
-  const handleGoBack = () => {
-    const goBackToPreviousPage = navigate(-1);
-    return goBackToPreviousPage;
-  }
-
   const onSubmit = async (data) => {
     setIsLoading(true);
 
@@ -98,17 +92,6 @@ export default function LoginForm({ className, ...props }) {
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <section>
-        <Button
-          title="Go back to previous page"
-          variant="ghost"
-          className="cursor-pointer"
-          onClick={handleGoBack}
-        >
-          <ArrowLeft />
-          Back
-        </Button>
-      </section>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FieldGroup>
           <div className="flex flex-col items-center gap-2 text-center">

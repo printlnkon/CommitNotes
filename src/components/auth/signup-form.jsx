@@ -3,7 +3,7 @@ import { signUpAPI } from "@/api/signUp";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -19,7 +19,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import {
-  ArrowLeft,
   CheckCircle,
   Eye,
   EyeOff,
@@ -41,7 +40,6 @@ const ShowTextReminder = () => {
 };
 
 export default function SignupForm({ className, ...props }) {
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isRateLimited, setIsRateLimited] = useState(false);
@@ -88,11 +86,6 @@ export default function SignupForm({ className, ...props }) {
     },
   ];
 
-  const handleGoBack = () => {
-    const goBackToPreviousPage = navigate(-1);
-    return goBackToPreviousPage;
-  }
-
   const onSubmit = async (data) => {
     setIsLoading(true);
 
@@ -136,17 +129,6 @@ export default function SignupForm({ className, ...props }) {
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <section>
-        <Button
-          title="Go back to previous page"
-          variant="ghost"
-          className="cursor-pointer"
-          onClick={handleGoBack}
-        >
-          <ArrowLeft />
-          Back
-        </Button>
-      </section>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FieldGroup>
           <div className="flex flex-col items-center gap-2 text-center">
